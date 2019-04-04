@@ -47,6 +47,10 @@ describe("Students", () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
+                    let firststudent = res.body.sortedbyage[0];
+                    firststudent.should.have.property('age').equal(19);
+                    
+                    
                     done();
                 })
 
