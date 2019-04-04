@@ -20,5 +20,13 @@ class StudentController {
                  message: "Student record not found",
            });
     }
+    // Get students sorted by age
+    static getStudentsByAge(req,res){
+
+          return res.status(200).json({
+                students,
+                message: "Students by age",
+          });
+    }
 }
 export default StudentController;
