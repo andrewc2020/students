@@ -22,13 +22,13 @@ class StudentController {
     }
     // Get students sorted by age
     static getStudentsByAge(req,res){
-            const sortedbyage = students.sort((a,b) => (a.age > b.age) ? 1 : ((b.age > a.age) ? -1 : 0));
+            const sortedbyage = students.sort((a,b) => (a.age > b.age) ? 1 : -1);
           return res.status(200).json({
                 sortedbyage,
                 message: "Students by age",
           });
     }
 
-    sortbyage = (a,b)=>a.age > b.age 
+    
 }
 export default StudentController;

@@ -43,7 +43,7 @@ describe("Students", () => {
          //Test to get students sorted by age
          it("should return students sorted by age desc",(done) => {
              chai.request(app)
-                .get('/?sortby=age')
+                .get('/sortby/age')
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
