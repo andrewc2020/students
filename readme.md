@@ -1,2 +1,2 @@
 # students
-simple student service written in node
+Simple student service written in node with mocha chai tests
