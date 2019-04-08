@@ -55,7 +55,7 @@ describe("Students", () => {
                 });
 
          });
-         it("should return students sorted by last name", (done)=>{
+         it("should return students sorted by first name", (done)=>{
              chai.request(app)
              .get('/sortby/name')
              .end((err, res) =>{
