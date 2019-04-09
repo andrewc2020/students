@@ -55,14 +55,14 @@ describe("Students", () => {
                 });
 
          });
-         it("should return students sorted by last name", (done)=>{
+         it("should return students sorted by first name", (done)=>{
              chai.request(app)
              .get('/sortby/name')
              .end((err, res) =>{
                  res.should.have.status(200);
                  res.body.should.be.a('object');
                  let firststudent = res.body.sortedbyname[0];
-                 firststudent.should.have.property('name').equal('Janet Dane');
+                 firststudent.should.have.property('name').equal('Arthur Clark');
                  
                  
                  done();

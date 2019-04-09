@@ -31,10 +31,10 @@ class StudentController {
 
     // Get students sorted by name
     static getStudentsByName(req,res){
-      const sortedbyname = students.sort((a,b) => (a.name.split('')[1] > b.name.split('')[1]) ? 1 : -1);
+      const sortedbyname = students.sort((a,b) => (a.name > b.name ? 1 : -1));
     return res.status(200).json({
           sortedbyname,
-          message: "Students by name",
+          message: "Students by first name",
     });
 }
 
