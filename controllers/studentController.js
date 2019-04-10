@@ -1,4 +1,7 @@
 import students from '../dummy/students.js';
+import {body,validationResult} from 'express-validator/check';
+import {sanitizeBody} from 'express-validator/filter';
+
 class StudentController {
     // Get all students
     static getAllStudents(req, res) {
@@ -36,7 +39,24 @@ class StudentController {
           sortedbyname,
           message: "Students by name",
     });
+    
 }
+      // add a student
+      static addStudent(req,res){
+            console.log(req.body.myparam);
+            body('name', 'Empty name').isLength({ min: 1 }).trim().withMessage('Name empty.').isAlpha().withMessage('Name must be alphabet letters.'), 
+            body('age', 'Invalid age').optional({ checkFalsy: true }).isISO8601(),
+            students.push({ "id": students.length + 1 , name: req.body.myparam.body.name , "age": req.body.myparam.body.age });
+            var myparam = req.body.myparam; //league id to create new student
+    if (!myparam) {
+        res.status(400).json({error : 'myparam is missing'});
+        return;
+    }
+            return res.status(200).json({
+                  students,
+                  message: "student added successfully",
+            });
+      }
 
     
 }

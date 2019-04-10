@@ -33,6 +33,7 @@
     "mocha": "^6.0.2"
   },
   "dependencies": {
+    "express-validator": "^5.3.1",
     "js-yaml": "^3.13.0"
   }
 }

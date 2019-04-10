@@ -2,6 +2,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../server';
+import https from 'https';
 // Configure chai
 chai.use(chaiHttp);
 chai.should();
@@ -70,7 +71,41 @@ describe("Students", () => {
 
 
              });
+        
 
-         })
+         });
+         it("should add a student", (done)=>{
+           
+            const data = { body : {
+                    
+                        
+                name: 'Fred Bloggs',
+                age: 36,
+              
+        }};
+            chai.request(app)
+            .post('/create/')
+            .set('content-type', 'application/json')
+            .send({myparam: data})
+            .end((err, res) =>{
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                console.log(res.body);
+                
+                if (err) {
+                    done(err);
+                } else {
+                    done();
+                }
+                
+                
+
+
+
+            });
+       
+
+        });
+
     });
 });
