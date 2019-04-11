@@ -76,7 +76,7 @@ describe("Students", () => {
          });
          it("should add a student", (done)=>{
            
-            const data = { body : {
+            const data = { student : {
                     
                         
                 name: 'Fred Bloggs',
@@ -86,7 +86,7 @@ describe("Students", () => {
             chai.request(app)
             .post('/create/')
             .set('content-type', 'application/json')
-            .send({myparam: data})
+            .send({data})
             .end((err, res) =>{
                 res.should.have.status(200);
                 res.body.should.be.a('object');

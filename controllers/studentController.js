@@ -43,13 +43,16 @@ class StudentController {
 }
       // add a student
       static addStudent(req,res){
-            console.log(req.body.myparam);
+            console.log(req.body);
             body('name', 'Empty name').isLength({ min: 1 }).trim().withMessage('Name empty.').isAlpha().withMessage('Name must be alphabet letters.'), 
-            body('age', 'Invalid age').optional({ checkFalsy: true }).isISO8601(),
-            students.push({ "id": students.length + 1 , name: req.body.myparam.body.name , "age": req.body.myparam.body.age });
-            var myparam = req.body.myparam; //league id to create new student
+            body('age', 'Invalid age').optional({ checkFalsy: true }).isISO8601()
+            // Extract the validation errors from a request.
+            const errors = validationResult(req);
+
+            students.push({ "id": students.length + 1 , name: req.body.data.student.name , "age": req.body.data.student.age });
+            var myparam = req.body.data.student;// info to create new student
     if (!myparam) {
-        res.status(400).json({error : 'myparam is missing'});
+        res.status(400).json({error : 'data is missing'});
         return;
     }
             return res.status(200).json({
