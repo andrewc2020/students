@@ -7,5 +7,6 @@ routes.get('/sortby/age',StudentController.getStudentsByAge);
 routes.get('/sortby/name',StudentController.getStudentsByName);
 routes.post('/create/', StudentController.addStudent);
 routes.put('/:id', StudentController.updateStudent);
+routes.delete('/:id', StudentController.deleteStudent);
 
 export default routes;

@@ -2,6 +2,7 @@ import students from '../dummy/students.js';
 import {check,validationResult} from 'express-validator/check';
 import app from '../server.js';
 import { doesNotReject } from 'assert';
+import _ from 'lodash';
 
 
 class StudentController {
@@ -71,6 +72,22 @@ static updateStudent(req,res){
       
 
 }
+      // delete a student
+      static deleteStudent(req,res){
+            const student = students.find( s => s.id === parseInt(req.params.id));
+      if(!student){
+      
+            return res.status(404).json({
+                  message: 'student not found'
+            });
+            
+      }
+            _.remove( students, { id : parseInt(req.params.id) });
+            return res.status(200).json({
+                  students,
+                  message: "all the students",
+            });
+      }
 
       // add a student
       static addStudent(req,res){
