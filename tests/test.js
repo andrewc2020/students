@@ -30,7 +30,7 @@ describe("Students", () => {
                   });
          });
          
-        // Test to get single student record
+        // Test to not get single student record 
         it("should not get a single student record", (done) => {
              const id = 5;
              chai.request(app)
@@ -70,11 +70,19 @@ describe("Students", () => {
 
 
 
-             });
+             }); //end of end
         
 
-         });
-         it("should add a student", (done)=>{
+         }); //end of it
+
+        
+        
+
+    }); //end of describe Get
+
+    // POST 
+    describe("Post /", ()=>{
+        it("should add a student", (done)=>{
            
             const data = { student : {
                     
@@ -106,6 +114,95 @@ describe("Students", () => {
        
 
         });
+        it("should throw an error when the name is empty",(done)=>{
+            const data = { student: {
+                name: '',
+                age: 26
+            }};
 
-    });
-});
+            chai.request(app)
+            .post('/create/')
+            .set('content-type', 'application/json')
+            .send({data})
+            .end((err,res) =>{
+                res.should.have.status(422);
+                done();
+            });
+
+
+        })
+        it("should throw an error when the age is out of range",(done)=>{
+            const data = { student: {
+                name: 'Jane Eyre',
+                age: 12
+            }};
+
+            chai.request(app)
+            .post('/create/')
+            .set('content-type', 'application/json')
+            .send({data})
+            .end((err,res) =>{
+                res.should.have.status(422);
+                done();
+            });
+
+
+        })
+    }); // end of describe Post
+    // describe PUT
+    describe("Put /1", ()=>{
+        it("should update an existing student",(done) =>{
+            const data = { student : {
+                    
+                id : 1,       
+                name: "Sean Gray",
+                age: 26,
+              
+        }};
+        chai.request(app)
+        .put(`/${data.student.id}`)
+        .set('content-type', 'application/json')
+        .send({data})
+        .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            const student = res.body.students.filter(s => s.id == data.student.id);
+            student[0].should.have.property("age").equal(26);
+            
+                
+                if (err) {
+                    done(err);
+                } else {
+                    done();
+                }
+
+            
+         });
+
+
+        });
+        it("should throw not found error when trying to update a non existant student", (done) => {
+            const data = { student : {
+                    
+                id : 300,       
+                name: "non existent student",
+                age: 26,
+              
+        }};
+            chai.request(app)
+            .put(`/${data.student.id}`)
+            .set('content-type', 'application/json')
+            .send({data})
+            .end((err, res) => {
+            res.should.have.status(404);
+            if (err) {
+                done(err);
+            } else {
+                done();
+            }
+            });
+        }); // end of it should
+            
+        
+    }); // end of describe PUT
+}); // end of describe Students

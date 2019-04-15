@@ -1,6 +1,8 @@
 import students from '../dummy/students.js';
-import {body,validationResult} from 'express-validator/check';
-import {sanitizeBody} from 'express-validator/filter';
+import {check,validationResult} from 'express-validator/check';
+import app from '../server.js';
+import { doesNotReject } from 'assert';
+
 
 class StudentController {
     // Get all students
@@ -40,21 +42,63 @@ class StudentController {
           message: "Students by name",
     });
     
+      }
+      //update a student
+static updateStudent(req,res){
+      const student = students.find( s => s.id === parseInt(req.params.id));
+      if(!student){
+      
+            return res.status(404).json({
+                  message: 'student not found'
+            });
+            
+      }
+      students.find(student => student.id === parseInt(req.params.id, 10)).age = parseInt(req.body.data.student.age);
+      students.find(student => student.id === parseInt(req.params.id, 10)).name = req.body.data.student.name;
+      
+      
+      
+            
+            
+            
+            return res.status(200).json({
+                  students,
+                  message: "All the students",
+            });
+      
+
+      
+      
+
 }
+
       // add a student
       static addStudent(req,res){
-            console.log(req.body);
-            body('name', 'Empty name').isLength({ min: 1 }).trim().withMessage('Name empty.').isAlpha().withMessage('Name must be alphabet letters.'), 
-            body('age', 'Invalid age').optional({ checkFalsy: true }).isISO8601()
-            // Extract the validation errors from a request.
-            const errors = validationResult(req);
-
+            
+            //check('name','Name empty').isLength({ min: 2 }).trim().withMessage('Name empty.').isAlpha().withMessage('Name must be alphabet letters.')
+                  // Finds the validation errors in this request and wraps them in an object with handy functions
+                  const errors = validationResult(req);
+                  
+                  if (req.body.data.student.name.length < 2) {
+                       
+                    return res.status(422).json({ errors: errors.array() });
+                  }
+                  if(req.body.data.student.age < 18){
+                        
+                        return res.status(422).json({ errors: errors.array() });
+                  }
+            
+            
             students.push({ "id": students.length + 1 , name: req.body.data.student.name , "age": req.body.data.student.age });
+          
+            
             var myparam = req.body.data.student;// info to create new student
+
     if (!myparam) {
         res.status(400).json({error : 'data is missing'});
         return;
     }
+    
             return res.status(200).json({
                   students,
                   message: "student added successfully",
