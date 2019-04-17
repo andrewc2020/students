@@ -7,11 +7,11 @@ import https from 'https';
 chai.use(chaiHttp);
 chai.should();
 describe("Students", () => {
-    describe("GET /", () => {
+    describe("GET /students", () => {
         // Test to get all students record
         it("should get all students record", (done) => {
              chai.request(app)
-                 .get('/')
+                 .get('/students')
                  .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
@@ -22,7 +22,7 @@ describe("Students", () => {
         it("should get a single student record", (done) => {
              const id = 1;
              chai.request(app)
-                 .get(`/${id}`)
+                 .get(`/students/${id}`)
                  .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
@@ -34,7 +34,7 @@ describe("Students", () => {
         it("should not get a single student record", (done) => {
              const id = 5;
              chai.request(app)
-                 .get(`/${id}`)
+                 .get(`/students/${id}`)
                  .end((err, res) => {
                      res.should.have.status(404);
                      done();
@@ -44,7 +44,7 @@ describe("Students", () => {
          //Test to get students sorted by age
          it("should return students sorted by age desc",(done) => {
              chai.request(app)
-                .get('/sortby/age')
+                .get('/students/sortby/age')
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
@@ -58,7 +58,7 @@ describe("Students", () => {
          });
          it("should return students sorted by first name", (done)=>{
              chai.request(app)
-             .get('/sortby/name')
+             .get('/students/sortby/name')
              .end((err, res) =>{
                  res.should.have.status(200);
                  res.body.should.be.a('object');
@@ -81,7 +81,7 @@ describe("Students", () => {
     }); //end of describe Get
 
     // POST 
-    describe("Post /", ()=>{
+    describe("Post /students", ()=>{
         it("should add a student", (done)=>{
            
             const data = { student : {
@@ -92,7 +92,7 @@ describe("Students", () => {
               
         }};
             chai.request(app)
-            .post('/create/')
+            .post('/students/create/')
             .set('content-type', 'application/json')
             .send({data})
             .end((err, res) =>{
@@ -121,7 +121,7 @@ describe("Students", () => {
             }};
 
             chai.request(app)
-            .post('/create/')
+            .post('/students/create/')
             .set('content-type', 'application/json')
             .send({data})
             .end((err,res) =>{
@@ -138,7 +138,7 @@ describe("Students", () => {
             }};
 
             chai.request(app)
-            .post('/create/')
+            .post('/students/create/')
             .set('content-type', 'application/json')
             .send({data})
             .end((err,res) =>{
@@ -150,7 +150,7 @@ describe("Students", () => {
         })
     }); // end of describe Post
     // describe PUT
-    describe("Put /1", ()=>{
+    describe("Put /students/1", ()=>{
         it("should update an existing student",(done) =>{
             const data = { student : {
                     
@@ -160,7 +160,7 @@ describe("Students", () => {
               
         }};
         chai.request(app)
-        .put(`/${data.student.id}`)
+        .put(`/students/${data.student.id}`)
         .set('content-type', 'application/json')
         .send({data})
         .end((err, res) => {
@@ -190,7 +190,7 @@ describe("Students", () => {
               
         }};
             chai.request(app)
-            .put(`/${data.student.id}`)
+            .put(`/students/${data.student.id}`)
             .set('content-type', 'application/json')
             .send({data})
             .end((err, res) => {
@@ -205,12 +205,12 @@ describe("Students", () => {
             
         
     }); // end of describe PUT
-    describe("delete/{$id}", ( )=> {
+    describe("delete/students/{$id}", ( )=> {
         it("should delete a student", (done) =>{
             
             
             chai.request(app)
-            .delete('/5')
+            .delete('/students/5')
             .end((err,res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
@@ -228,7 +228,7 @@ describe("Students", () => {
     it("should throw a not found error if the student does not exist", (done) => {
         
         chai.request(app)
-        .delete('/300')
+        .delete('/students/300')
         .end((err, res) => {
             res.should.have.status(404);
             if (err) {
@@ -241,3 +241,33 @@ describe("Students", () => {
     }); // end of it should throw error
     }); //end of describe delete
 }); // end of describe Students
+
+//describe  courses
+describe('courses', () =>{
+    describe('GET /courses', () => {
+        // Test to get all course records
+    it("should get all course records", (done) => {
+        chai.request(app)
+            .get('/courses')
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                done();
+             });
+    });// end of 
+    // Test to get single course record
+    it("should get a single course record", (done) => {
+        const id = 1;
+        chai.request(app)
+            .get(`/courses/${id}`)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                done();
+             });
+    });
+
+    }); // end of describe GET courses
+    
+
+}); // end of describe courses
