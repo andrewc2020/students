@@ -16,7 +16,7 @@ class CourseController{
         const findcourse = courses.find(course => course.id === parseInt(req.params.id, 10));
         if (findcourse) {
             return res.status(200).json({
-                  student: findcourse,
+                  course: findcourse,
                   message: "A single course record",
             });
         }

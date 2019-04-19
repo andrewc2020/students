@@ -279,7 +279,7 @@ describe('courses', () =>{
     // sort by name
     it("should get courses sorted by name", (done) => {
         chai.request(app)
-        .get(`/courses/sortedby/name`)
+        .get(`/courses/sortby/name`)
         .end((err,res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
@@ -293,13 +293,7 @@ describe('courses', () =>{
 }); // end of describe GET courses
 // POST 
     describe("Post /courses", ()=>{
-        const data = { student : {
-                    
-                        
-            name: 'Fred Bloggs',
-            age: 36,
-          
-    }};
+        
         it("should add a course",(done) => {
             const data = { course : {
                     
