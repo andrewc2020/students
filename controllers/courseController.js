@@ -92,7 +92,22 @@ static updateCourse(req,res){
     
 
 }
+ // delete a student
+ static deleteCourse(req,res){
+    const course = courses.find( s => s.id === parseInt(req.params.id));
+if(!course){
 
+    return res.status(404).json({
+          message: 'course not found'
+    });
+    
+}
+    _.remove( courses, { id : parseInt(req.params.id) });
+    return res.status(200).json({
+          courses,
+          message: "all the courses",
+    });
+}
 
 } // end of class
 export default CourseController;

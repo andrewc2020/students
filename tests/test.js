@@ -403,6 +403,44 @@ describe('courses', () =>{
             
         
     }); // end of describe PUT
+
+    // describe DELETE
+    describe("delete/courses/{$id}", ( )=> {
+        it("should delete a course", (done) =>{
+            
+            
+            chai.request(app)
+            .delete('/courses/5')
+            .end((err,res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                console.log(res.body);
+                if (err) {
+                    done(err);
+                } else {
+                    done();
+                }
+
+            });
+        })
+
+    
+    it("should throw a not found error if the course does not exist", (done) => {
+        
+        chai.request(app)
+        .delete('/courses/300')
+        .end((err, res) => {
+            res.should.have.status(404);
+            if (err) {
+                done(err);
+            } else {
+                done();
+            }
+        }); 
+        
+    }); // end of it should throw error
+
+    }); // end of describe delete
     
 
 }); // end of describe courses

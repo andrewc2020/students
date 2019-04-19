@@ -15,6 +15,7 @@ routes.get('/courses/:id', CourseController.getSingleCourse);
 routes.get('/courses/sortedby/name',CourseController.getCoursesByName);
 routes.post('/courses/create/', CourseController.addCourse);
 routes.put('/courses/:id', CourseController.updateCourse);
+routes.delete('/courses/:id', CourseController.deleteCourse);
 
 
 export default routes;
