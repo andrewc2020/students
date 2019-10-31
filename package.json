@@ -7,7 +7,10 @@
     "test": "mocha --require @babel/register tests/*.js --exit",
     "dev": "nodemon --exec babel-node  ./src/server.js",
     "execute": "node lib/server.js",
-    "build": "babel src -d lib"
+    "clean": "rm -rf lib && mkdir lib",
+    "build-babel": "babel src -d lib",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && node ./lib/server.js"
   },
   "repository": {
     "type": "git",
