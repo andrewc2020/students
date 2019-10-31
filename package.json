@@ -2,10 +2,12 @@
   "name": "students",
   "version": "1.0.0",
   "description": "simple data service",
-  "main": "server.js",
+  "main": "./src/server.js",
   "scripts": {
-    "test": "mocha --require babel-register tests/*.js --exit",
-    "dev": "nodemon --exec babel-node --presets babel-preset-env ./server.js"
+    "test": "mocha --require @babel/register tests/*.js --exit",
+    "dev": "nodemon --exec babel-node  ./src/server.js",
+    "execute": "node lib/server.js",
+    "build": "babel src -d lib"
   },
   "repository": {
     "type": "git",
@@ -24,17 +26,25 @@
   },
   "homepage": "https://github.com/andrewc2020/students#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "express": "^4.16.4",
-    "mocha": "^6.0.2"
+    "mocha": "^6.2.2",
+    "nodemon": "^1.19.4",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
+    "@babel/node": "^7.6.3",
+    "@babel/register": "^7.6.2",
+    "babel-loader": "^8.0.6",
     "express-validator": "^5.3.1",
-    "js-yaml": "^3.13.0",
-    "lodash": "^4.17.11"
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.15"
   }
 }
