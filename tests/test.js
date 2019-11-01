@@ -48,13 +48,29 @@ describe("Students", () => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     let firststudent = res.body.sortedbyage[0];
-                    firststudent.should.have.property('age').equal(19);
+                    firststudent.should.have.property('dob').equal(19930418);
                     
                     
                     done();
                 });
 
          });
+
+          //Test to get students sorted by age
+          it("should return students sorted by age asc",(done) => {
+            chai.request(app)
+               .get('/students/sortby/age/asc')
+               .end((err, res) => {
+                   res.should.have.status(200);
+                   res.body.should.be.a('object');
+                   let firststudent = res.body.sortedbyage[0];
+                   firststudent.should.have.property('dob').equal(20001209);
+                   
+                   
+                   done();
+               });
+
+        });
          it("should return students sorted by first name", (done)=>{
              chai.request(app)
              .get('/students/sortby/name')
@@ -87,7 +103,7 @@ describe("Students", () => {
                     
                         
                 name: 'Fred Bloggs',
-                age: 36,
+                dob: 19830924
               
         }};
             chai.request(app)
@@ -116,7 +132,7 @@ describe("Students", () => {
         it("should throw an error when the name is empty",(done)=>{
             const data = { student: {
                 name: '',
-                age: 26
+                dob: 19931116
             }};
 
             chai.request(app)
@@ -133,7 +149,7 @@ describe("Students", () => {
         it("should throw an error when the age is out of range",(done)=>{
             const data = { student: {
                 name: 'Jane Eyre',
-                age: 12
+                dob: 20071208
             }};
 
             chai.request(app)
@@ -155,7 +171,7 @@ describe("Students", () => {
                     
                 id : 1,       
                 name: "Sean Gray",
-                age: 26,
+                dob: 19930522,
               
         }};
         chai.request(app)
@@ -166,7 +182,7 @@ describe("Students", () => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const student = res.body.students.filter(s => s.id == data.student.id);
-            student[0].should.have.property("age").equal(26);
+            student[0].should.have.property("dob").equal(19930522);
             
                 
                 if (err) {
@@ -185,7 +201,7 @@ describe("Students", () => {
                     
                 id : 300,       
                 name: "non existent student",
-                age: 26,
+                dob: 19930214
               
         }};
             chai.request(app)

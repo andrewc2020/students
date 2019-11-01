@@ -2,6 +2,9 @@ import students from '../dummy/students';
 import {check,validationResult} from 'express-validator/check';
 import _ from 'lodash';
 
+function getAge(birthDate){
+      return  Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10);
+    }
 
 class StudentController {
     // Get all students
@@ -26,13 +29,24 @@ class StudentController {
     }
     // Get students sorted by age
     static getStudentsByAge(req,res){
-            const sortedbyage = students.sort((a,b) => (a.age > b.age) ? 1 : -1);
+            const sortedbyage = students.sort((a,b) => (a.dob > b.dob) ? 1 : -1);
           return res.status(200).json({
                 sortedbyage,
                 message: "Students by age",
           });
     }
 
+    // Get students sorted by age
+    static getStudentsByAgeAsc(req,res){
+      const sortedbyage = students.sort((a,b) => (a.dob < b.dob) ? 1 : -1);
+    return res.status(200).json({
+          sortedbyage,
+          message: "Students by age ascending - youngest to oldest",
+    });
+}
+
+   
+    
     // Get students sorted by name
     static getStudentsByName(req,res){
       const sortedbyname = students.sort((a,b) => (a.name > b.name ? 1 : -1));
@@ -52,7 +66,7 @@ static updateStudent(req,res){
             });
             
       }
-      students.find(student => student.id === parseInt(req.params.id, 10)).age = parseInt(req.body.data.student.age);
+      students.find(student => student.id === parseInt(req.params.id, 10)).dob = parseInt(req.body.data.student.dob);
       students.find(student => student.id === parseInt(req.params.id, 10)).name = req.body.data.student.name;
       
       
@@ -98,13 +112,13 @@ static updateStudent(req,res){
                        
                     return res.status(422).json({ errors: errors.array() });
                   }
-                  if(req.body.data.student.age < 18){
+                  if(req.body.data.student.dob > 20010101){
                         
                         return res.status(422).json({ errors: errors.array() });
                   }
             
             
-            students.push({ "id": students.length + 1 , name: req.body.data.student.name , "age": req.body.data.student.age });
+            students.push({ "id": students.length + 1 , name: req.body.data.student.name , "dob": req.body.data.student.dob });
           
             
             var myparam = req.body.data.student;// info to create new student
