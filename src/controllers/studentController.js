@@ -32,7 +32,7 @@ class StudentController {
             const sortedbyage = students.sort((a,b) => (a.dob > b.dob) ? 1 : -1);
           return res.status(200).json({
                 sortedbyage,
-                message: "Students by age",
+                message: "Students by age descending - oldest to youngest",
           });
     }
 
