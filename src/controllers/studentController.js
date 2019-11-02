@@ -1,17 +1,43 @@
 import students from '../dummy/students';
 import {check,validationResult} from 'express-validator/check';
 import _ from 'lodash';
+import _calculateAge from '../utils/age';
 
-function getAge(birthDate){
-      return  Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10);
-    }
+
 
 class StudentController {
     // Get all students
+
+
+
+    
+
+
+    constructor(){
+      
+
+    }
+
+    
+    
     static getAllStudents(req, res) {
+
+      const allStudents = JSON.parse(JSON.stringify(students.reduce((acc,student)=>{
+            acc[student[0]] = student[0] || []
+            acc.push({
+                        id : student.id,
+                        name: student.name,
+                        dob: student.dob,
+                        age: _calculateAge(new Date(student.dob))
+            })
+
+            return acc;
+
+      },[]),2));
+          
           return res.status(200).json({
-                students,
-                message: "All the students",
+                allStudents,
+                message: "All the students"
           });
     }
     // Get a single student
@@ -27,18 +53,18 @@ class StudentController {
                  message: "Student record not found",
            });
     }
-    // Get students sorted by age
+    // Get students sorted by age descending
     static getStudentsByAge(req,res){
-            const sortedbyage = students.sort((a,b) => (a.dob > b.dob) ? 1 : -1);
+            const sortedbyage = students.sort((a,b) => (new Date(a.dob) > new Date(b.dob)) ? 1 : -1);
           return res.status(200).json({
                 sortedbyage,
                 message: "Students by age descending - oldest to youngest",
           });
     }
 
-    // Get students sorted by age
+    // Get students sorted by age ascending
     static getStudentsByAgeAsc(req,res){
-      const sortedbyage = students.sort((a,b) => (a.dob < b.dob) ? 1 : -1);
+      const sortedbyage = students.sort((a,b) => (new Date(a.dob) < new Date(b.dob)) ? 1 : -1);
     return res.status(200).json({
           sortedbyage,
           message: "Students by age ascending - youngest to oldest",
@@ -66,7 +92,7 @@ static updateStudent(req,res){
             });
             
       }
-      students.find(student => student.id === parseInt(req.params.id, 10)).dob = parseInt(req.body.data.student.dob);
+      students.find(student => student.id === parseInt(req.params.id, 10)).dob = req.body.data.student.dob;
       students.find(student => student.id === parseInt(req.params.id, 10)).name = req.body.data.student.name;
       
       
@@ -112,7 +138,7 @@ static updateStudent(req,res){
                        
                     return res.status(422).json({ errors: errors.array() });
                   }
-                  if(req.body.data.student.dob > 20010101){
+                  if(_calculateAge(new Date(req.body.data.student.dob)) < 18){
                         
                         return res.status(422).json({ errors: errors.array() });
                   }

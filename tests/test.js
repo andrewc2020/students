@@ -14,6 +14,7 @@ describe("Students", () => {
                  .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
+                     console.log(res.body);
                      done();
                   });
          });
@@ -48,7 +49,7 @@ describe("Students", () => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     let firststudent = res.body.sortedbyage[0];
-                    firststudent.should.have.property('dob').equal(19930418);
+                    firststudent.should.have.property('dob').equal('03/30/1993');
                     
                     
                     done();
@@ -64,7 +65,7 @@ describe("Students", () => {
                    res.should.have.status(200);
                    res.body.should.be.a('object');
                    let firststudent = res.body.sortedbyage[0];
-                   firststudent.should.have.property('dob').equal(20001209);
+                   firststudent.should.have.property('dob').equal('12/09/2000');
                    
                    
                    done();
@@ -103,7 +104,7 @@ describe("Students", () => {
                     
                         
                 name: 'Fred Bloggs',
-                dob: 19830924
+                dob: '24/09/1983'
               
         }};
             chai.request(app)
@@ -132,7 +133,7 @@ describe("Students", () => {
         it("should throw an error when the name is empty",(done)=>{
             const data = { student: {
                 name: '',
-                dob: 19931116
+                dob: '11/16/1993'
             }};
 
             chai.request(app)
@@ -149,7 +150,7 @@ describe("Students", () => {
         it("should throw an error when the age is out of range",(done)=>{
             const data = { student: {
                 name: 'Jane Eyre',
-                dob: 20071208
+                dob: '08/12/2008'
             }};
 
             chai.request(app)
@@ -171,7 +172,7 @@ describe("Students", () => {
                     
                 id : 1,       
                 name: "Sean Gray",
-                dob: 19930522,
+                dob: '22/05/1993',
               
         }};
         chai.request(app)
@@ -182,7 +183,7 @@ describe("Students", () => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const student = res.body.students.filter(s => s.id == data.student.id);
-            student[0].should.have.property("dob").equal(19930522);
+            student[0].should.have.property("dob").equal('22/05/1993');
             
                 
                 if (err) {
@@ -196,12 +197,12 @@ describe("Students", () => {
 
 
         });
-        it("should throw not found error when trying to update a non existant student", (done) => {
+        it("should throw not found error when trying to update a non existent student", (done) => {
             const data = { student : {
                     
                 id : 300,       
                 name: "non existent student",
-                dob: 19930214
+                dob: '02/14/1993'
               
         }};
             chai.request(app)
@@ -388,7 +389,7 @@ describe('courses', () =>{
 
 
         });
-        it("should throw not found error when trying to update a non existant course", (done) => {
+        it("should throw not found error when trying to update a non existent course", (done) => {
             const data = { course : {
                     
                 id : 300,       

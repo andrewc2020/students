@@ -2,22 +2,22 @@ const students = [
     {
       id: 1,
       name: 'Sean Grey',
-      dob: 19950702
+      dob: '07/02/1995'
     },
     {
       id: 2,
       name: 'John Doe',
-      dob: 19931008
+      dob: '10/08/1993'
     },
     {
       id: 3,
       name: 'Janet Dane',
-      dob: 20001209
+      dob: '12/09/2000'
     },
     {
       id:4,
       name:'Arthur Clark',
-      dob: 19930418
+      dob: '03/30/1993'
     }
  ];
  export default students;
