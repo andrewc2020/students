@@ -14,29 +14,38 @@ class StudentController {
 
 
     constructor(){
+
+     
       
 
     }
+
+
+    
+
 
     
     
     static getAllStudents(req, res) {
 
-      const allStudents = JSON.parse(JSON.stringify(students.reduce((acc,student)=>{
-            acc[student[0]] = student[0] || []
-            acc.push({
-                        id : student.id,
-                        name: student.name,
-                        dob: student.dob,
-                        age: _calculateAge(new Date(student.dob))
-            })
+      // const allStudents = JSON.parse(JSON.stringify(students.reduce((acc,student)=>{
+      //       acc[student[0]] = student[0] || []
+      //       acc.push({
+      //                   id : student.id,
+      //                   name: student.name,
+      //                   dob: student.dob,
+      //                   age: _calculateAge(new Date(student.dob))
+      //       })
 
-            return acc;
+      //       return acc;
 
-      },[]),2));
+      // },[]),2));
+
+      
+    
           
           return res.status(200).json({
-                allStudents,
+                students,
                 message: "All the students"
           });
     }
@@ -92,8 +101,13 @@ static updateStudent(req,res){
             });
             
       }
+      let calcAge = _calculateAge(new Date(req.body.data.student.dob));
+
+     
+
       students.find(student => student.id === parseInt(req.params.id, 10)).dob = req.body.data.student.dob;
       students.find(student => student.id === parseInt(req.params.id, 10)).name = req.body.data.student.name;
+      students.find(student => student.id === parseInt(req.params.id, 10)).age = calcAge;
       
       
       
@@ -142,9 +156,9 @@ static updateStudent(req,res){
                         
                         return res.status(422).json({ errors: errors.array() });
                   }
+            let calcAge = _calculateAge(new Date(req.body.data.student.dob));
             
-            
-            students.push({ "id": students.length + 1 , name: req.body.data.student.name , "dob": req.body.data.student.dob });
+            students.push({ "id": students.length + 1 , "name": req.body.data.student.name , "dob": req.body.data.student.dob, "age": calcAge });
           
             
             var myparam = req.body.data.student;// info to create new student

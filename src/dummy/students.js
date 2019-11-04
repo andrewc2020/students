@@ -1,4 +1,6 @@
-const students = [
+import _calculateAge from '../utils/age';
+
+const _students = [
     {
       id: 1,
       name: 'Sean Grey',
@@ -20,4 +22,18 @@ const students = [
       dob: '03/30/1993'
     }
  ];
+
+ const students = JSON.parse(JSON.stringify(_students.reduce((acc,student)=>{
+  acc[student[0]] = student[0] || []
+  acc.push({
+              id : student.id,
+              name: student.name,
+              dob: student.dob,
+              age: _calculateAge(new Date(student.dob))
+  })
+
+  return acc;
+
+},[]),2));
+
  export default students;

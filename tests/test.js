@@ -104,7 +104,7 @@ describe("Students", () => {
                     
                         
                 name: 'Fred Bloggs',
-                dob: '24/09/1983'
+                dob: '09/24/1983'
               
         }};
             chai.request(app)
@@ -167,12 +167,12 @@ describe("Students", () => {
     }); // end of describe Post
     // describe PUT
     describe("Put /students/1", ()=>{
-        it("should update an existing student",(done) =>{
+        it("should update an existing student Sean Gray - dob",(done) =>{
             const data = { student : {
                     
                 id : 1,       
                 name: "Sean Gray",
-                dob: '22/05/1993',
+                dob: '05/22/1993',
               
         }};
         chai.request(app)
@@ -183,8 +183,8 @@ describe("Students", () => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const student = res.body.students.filter(s => s.id == data.student.id);
-            student[0].should.have.property("dob").equal('22/05/1993');
-            
+            student[0].should.have.property("dob").equal('05/22/1993');
+            console.log(res.body);
                 
                 if (err) {
                     done(err);
