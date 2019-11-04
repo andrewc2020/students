@@ -150,9 +150,9 @@ static updateStudent(req,res){
             students.push({ "id": students.length + 1 , "name": req.body.data.student.name , "dob": req.body.data.student.dob, "age": calcAge });
           
             
-            var myparam = req.body.data.student;// info to create new student
+            var my_param = req.body.data.student;// info to create new student
 
-    if (!myparam) {
+    if (!my_param) {
         res.status(400).json({error : 'data is missing'});
         return;
     }
