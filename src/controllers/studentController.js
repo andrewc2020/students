@@ -28,18 +28,7 @@ class StudentController {
     
     static getAllStudents(req, res) {
 
-      // const allStudents = JSON.parse(JSON.stringify(students.reduce((acc,student)=>{
-      //       acc[student[0]] = student[0] || []
-      //       acc.push({
-      //                   id : student.id,
-      //                   name: student.name,
-      //                   dob: student.dob,
-      //                   age: _calculateAge(new Date(student.dob))
-      //       })
-
-      //       return acc;
-
-      // },[]),2));
+      
 
       
     
