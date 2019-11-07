@@ -1,4 +1,4 @@
-import students from '../dummy/students';
+import students from '../dummy/db_students';
 import {check,validationResult} from 'express-validator/check';
 import _ from 'lodash';
 import _calculateAge from '../utils/age';
