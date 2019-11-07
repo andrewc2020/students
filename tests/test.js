@@ -2,6 +2,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/server';
+
 // Configure chai
 chai.use(chaiHttp);
 chai.should();
