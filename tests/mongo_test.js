@@ -2,6 +2,7 @@ import mongo from 'mongodb';
 import assert from 'assert';
 import _calculateAge from '../src/utils/age';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv'
 
 describe('mongo tests',()=>{
 
@@ -77,12 +78,42 @@ describe('#3 connect using mongoose',()=>{
 })
 describe('#4 connect using env',()=>{
     it('should connect to local mongodb',()=>{
+        dotenv.config();
         mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true});
         let db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', function() {
   // we're connected!
             assert.ok("connection established");
+            db.close();
+    });
+    })
+})
+describe('#5 connect using schema',()=>{
+    it('should connect to local mongodb',()=>{
+        dotenv.config();
+        mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true});
+        let db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function() {
+  // we're connected!
+            assert.ok("connection established");
+            let kittySchema = new mongoose.Schema({
+                name: String
+              });
+            // NOTE: methods must be added to the schema before compiling it with mongoose.model()
+            kittySchema.methods.speak = function () {
+            let greeting = this.name
+                    ? "Meow name is " + this.name
+            : "I don't have a name";
+            console.log(greeting);
+            }
+  
+  var Kitten = mongoose.model('Kitten', kittySchema);
+            let silence = new Kitten({ name: 'Silence' });
+            console.log(silence.name); // 'Silence'
+            let fluffy = new Kitten({ name: 'fluffy' });
+            fluffy.speak(); // "Meow name is fluffy"
             db.close();
     });
     })
