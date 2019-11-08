@@ -98,6 +98,8 @@ describe('#5 connect using schema',()=>{
         db.once('open', function() {
   // we're connected!
             assert.ok("connection established");
+            
+            db.collection("kittens").drop();
             let kittySchema = new mongoose.Schema({
                 name: String
               });
