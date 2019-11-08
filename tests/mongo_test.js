@@ -111,7 +111,7 @@ describe('#5 connect using schema',()=>{
             console.log(greeting);
             }
   
-  var Kitten = mongoose.model('Kitten', kittySchema);
+  let Kitten = mongoose.model('Kitten', kittySchema);
             let silence = new Kitten({ name: 'Silence' });
             console.log(silence.name); // 'Silence'
             let fluffy = new Kitten({ name: 'fluffy' });
@@ -120,9 +120,38 @@ describe('#5 connect using schema',()=>{
                 if (err) return console.error(err);
                 fluffy.speak();
               });
+           
             
             db.close();
     });
     })
 })
+describe('#6 retrieve all kittens',()=>{
+    it('should return all kittens',()=>{
+        mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true});
+        let db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function() {
+  // we're connected!
+            assert.ok("connection established");
+            
+            let Kitten = mongoose.model('Kitten','test.kittens');
+            Kitten.find((err,kittens)=>{
+                if(err) throw err;
+                console.log(kittens);
+                console.log('all the kittens');
+            })
+                  
+            
+                
+                //assert.strictEqual(kittens.count(),1)
+               
+
+            
+            
+            
+            db.close();
+    }); //end of db.once
+    }) //end of it
+}) //end of describe
 }) // end of mongo tests
