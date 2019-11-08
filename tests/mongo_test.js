@@ -65,7 +65,7 @@ mongo.MongoClient.connect(url,{
 }) // end describe
 describe('#3 connect using mongoose',()=>{
     it('should connect to local mongodb',()=>{
-        mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
+        mongoose.connect('mongodb://localhost/test', { useUnifiedTopology: true, useNewUrlParser: true});
         let db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', function() {
