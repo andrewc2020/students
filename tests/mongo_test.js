@@ -114,6 +114,10 @@ describe('#5 connect using schema',()=>{
             console.log(silence.name); // 'Silence'
             let fluffy = new Kitten({ name: 'fluffy' });
             fluffy.speak(); // "Meow name is fluffy"
+            fluffy.save(function (err, fluffy) {
+                if (err) return console.error(err);
+                fluffy.speak();
+              });
             db.close();
     });
     })
