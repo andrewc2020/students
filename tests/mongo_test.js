@@ -89,59 +89,46 @@ describe('#4 connect using env',()=>{
     });
     })
 })
-describe('#5 connect using schema',()=>{
-    it('should connect to local mongodb',()=>{
-        dotenv.config();
-        mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true});
-        let db = mongoose.connection;
-        db.on('error', console.error.bind(console, 'connection error:'));
-        db.once('open', function() {
-  // we're connected!
-            assert.ok("connection established");
-            
-            db.collection("kittens").drop();
-            let kittySchema = new mongoose.Schema({
-                name: String
-              });
-            // NOTE: methods must be added to the schema before compiling it with mongoose.model()
-            kittySchema.methods.speak = function () {
-            let greeting = this.name
-                    ? "Meow name is " + this.name
-            : "I don't have a name";
-            console.log(greeting);
-            }
-  
-  let Kitten = mongoose.model('Kitten', kittySchema);
-            let silence = new Kitten({ name: 'Silence' });
-            console.log(silence.name); // 'Silence'
-            let fluffy = new Kitten({ name: 'fluffy' });
-            fluffy.speak(); // "Meow name is fluffy"
-            fluffy.save(function (err, fluffy) {
-                if (err) return console.error(err);
-                fluffy.speak();
-              });
-           
-            
-            db.close();
-    });
-    })
-})
-describe('#6 retrieve all kittens',()=>{
+
+describe('#5 retrieve all kittens',()=>{
     it('should return all kittens',()=>{
+        
         mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true});
         let db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', function() {
   // we're connected!
             assert.ok("connection established");
+            mongoose.set('debug' , true);
+            try{
+                let kittySchema = new mongoose.Schema({
+                    name: String
+                  });
+                // NOTE: methods must be added to the schema before compiling it with mongoose.model()
+                kittySchema.methods.speak = function () {
+                let greeting = this.name
+                        ? "Meow name is " + this.name
+                : "I don't have a name";
+                console.log(greeting);
+                }
+      
+      let Kitten = mongoose.model('Kitten', kittySchema);
             
-            let Kitten = mongoose.model('Kitten');
-            Kitten.find((err, kittens)=>{
+            Kitten.find({name:'fluffy'},(err, kittens)=>{
                 if(err) throw err;
                 console.log('all the kittens');
                 console.log(kittens);
                 
             })
+
+            Kitten.deleteMany(()=>{
+
+            });
+        
+    } catch (err) {
+        console.log('err' + err);
+        
+      }
                   
             
                 
@@ -155,4 +142,36 @@ describe('#6 retrieve all kittens',()=>{
     }); //end of db.once
     }) //end of it
 }) //end of describe
+describe('#6 connect using schema',()=>{
+    it('should connect to local mongodb',()=>{
+        dotenv.config();
+        mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true});
+        let db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function() {
+  // we're connected!
+            assert.ok("connection established");
+            
+            //db.collection("kittens").drop();
+            let Kitten = mongoose.model('Kitten');
+            
+            let silence = new Kitten({ name: 'Silence' });
+            silence.save((err,silence)=>{
+                if(err) return console.error(err);
+                silence.speak();
+
+            })
+            console.log(silence.name); // 'Silence'
+            let fluffy = new Kitten({ name: 'fluffy' });
+            fluffy.speak(); // "Meow name is fluffy"
+            fluffy.save( function (err, fluffy) {
+                if (err) return console.error(err);
+                fluffy.speak();
+              });
+           
+            db.close();
+            
+    }); //end of connect
+    }) //end of it
+})  //end of describe
 }) // end of mongo tests
