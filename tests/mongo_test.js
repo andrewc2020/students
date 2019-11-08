@@ -135,11 +135,12 @@ describe('#6 retrieve all kittens',()=>{
   // we're connected!
             assert.ok("connection established");
             
-            let Kitten = mongoose.model('Kitten','test.kittens');
-            Kitten.find((err,kittens)=>{
+            let Kitten = mongoose.model('Kitten');
+            Kitten.find((err, kittens)=>{
                 if(err) throw err;
-                console.log(kittens);
                 console.log('all the kittens');
+                console.log(kittens);
+                
             })
                   
             
