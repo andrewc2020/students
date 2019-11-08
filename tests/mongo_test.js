@@ -118,6 +118,12 @@ describe('#5 connect using schema',()=>{
                 if (err) return console.error(err);
                 fluffy.speak();
               });
+            // and retrieve all kittens
+            Kitten.find(function (err, kittens) {
+                if (err) return console.error(err);
+                console.log(kittens);
+                assert.equal(kittens[0].name, 'fluffy');
+              })
             db.close();
     });
     })
