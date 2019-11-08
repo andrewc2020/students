@@ -75,4 +75,16 @@ describe('#3 connect using mongoose',()=>{
     });
     })
 })
+describe('#4 connect using env',()=>{
+    it('should connect to local mongodb',()=>{
+        mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true});
+        let db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function() {
+  // we're connected!
+            assert.ok("connection established");
+            db.close();
+    });
+    })
+})
 }) // end of mongo tests
