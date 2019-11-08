@@ -2,8 +2,11 @@ import mongo from 'mongodb';
 import _calculateAge from '../utils/age';
 
 
-var url = "mongodb://localhost:27017/";
-let _students = [];
+const url = "mongodb://localhost:27017/";
+
+let students =[];
+
+   
 
 mongo.MongoClient.connect(url,{
     useUnifiedTopology: true,
@@ -13,25 +16,31 @@ mongo.MongoClient.connect(url,{
         var dbo = db.db("mydb");
         dbo.collection("students").find({}).toArray(function(err, result) {
             if (err) throw err;
-                
-                _students = result;
+           
+          students = JSON.parse(JSON.stringify(result.reduce((acc,student)=>{
+                acc[student[0]] = student[0] || []
+                acc.push({
+                            id : student.id,
+                            name: student.name,
+                            dob: student.dob,
+                            age: _calculateAge(new Date(student.dob))
+                })
+              
+                return acc;
+              
+              },[]),2));
+
+             
+                   
                 db.close();
             }); // end find
         }); // end connect
 
-        const students = JSON.parse(JSON.stringify(_students.reduce((acc,student)=>{
-            acc[student[0]] = student[0] || []
-            acc.push({
-                        id : student.id,
-                        name: student.name,
-                        dob: student.dob,
-                        age: _calculateAge(new Date(student.dob))
-            })
-           
-            return acc;
-          
-          },[]),2));
+
+    
+
+     
 
           
           
-           export default students;
+export default students;
