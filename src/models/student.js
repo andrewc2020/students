@@ -1,24 +1,24 @@
-import mongoose, { Mongoose } from 'mongoose';
+import mongoose from 'mongoose';
+import _calculateAge from "../utils/age";
 
 
-const studentSchema = new Mongoose.Schema({
-    id: {
-        type: int,
-        unique: true,
-    },
+const studentSchema = new mongoose.Schema({
+    
     name: {
         type: String,
         unique: false,
       },
-      dob:{
+    dob:{
           type: String,
           unique: false
-      },
-      age:{
-          type: int,
-          unique: false
       }
-})
+      
+});
+
+studentSchema.methods.age = _calculateAge(new Date(studentSchema.dob));
+
+
+
 
 
 
@@ -28,4 +28,4 @@ const Student = mongoose.model('Student', studentSchema);
 
 
 
-export default {Student, Students};
+export default Student;

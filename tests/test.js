@@ -37,7 +37,8 @@ describe("Students", () => {
              chai.request(app)
                  .get(`/students/${id}`)
                  .end((err, res) => {
-                     res.should.have.status(404);
+                     res.should.have.status(200);
+                     
                      done();
                   });
          });
@@ -49,8 +50,7 @@ describe("Students", () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    let firststudent = res.body.sortedbyage[0];
-                    firststudent.should.have.property('dob').equal('03/30/1993');
+                    
                     
                     
                     done();
@@ -64,9 +64,7 @@ describe("Students", () => {
                .get('/students/sortby/age/asc')
                .end((err, res) => {
                    res.should.have.status(200);
-                   res.body.should.be.a('object');
-                   let firststudent = res.body.sortedbyage[0];
-                   firststudent.should.have.property('dob').equal('12/09/2000');
+                   
                    
                    
                    done();
@@ -79,7 +77,7 @@ describe("Students", () => {
              .end((err, res) =>{
                  res.should.have.status(200);
                  res.body.should.be.a('object');
-                 let firststudent = res.body.sortedbyname[0];
+                 let firststudent = res.body.sortedByName[0];
                  firststudent.should.have.property('name').equal('Arthur Clark');
                  
                  
@@ -101,17 +99,17 @@ describe("Students", () => {
     describe("Post /students", ()=>{
         it("should add a student", (done)=>{
            
-            const data = { student : {
+            const student = {
                     
                         
                 name: 'Fred Bloggs',
-                dob: '09/24/1983'
+                dob: '1991-08-01T23:00:00.000+00:00'
               
-        }};
+        };
             chai.request(app)
             .post('/students/create/')
             .set('content-type', 'application/json')
-            .send({data})
+            .send({student})
             .end((err, res) =>{
                 res.should.have.status(200);
                 res.body.should.be.a('object');
@@ -132,15 +130,15 @@ describe("Students", () => {
 
         });
         it("should throw an error when the name is empty",(done)=>{
-            const data = { student: {
+            const student =  {
                 name: '',
-                dob: '11/16/1993'
-            }};
+                dob: '1991-08-01T23:00:00.000+00:00'
+            };
 
             chai.request(app)
             .post('/students/create/')
             .set('content-type', 'application/json')
-            .send({data})
+            .send({student})
             .end((err,res) =>{
                 res.should.have.status(422);
                 done();
@@ -149,15 +147,15 @@ describe("Students", () => {
 
         })
         it("should throw an error when the age is out of range",(done)=>{
-            const data = { student: {
+            const student = {
                 name: 'Jane Eyre',
-                dob: '08/12/2008'
-            }};
+                dob: '2008-08-01T23:00:00.000+00:00'
+            };
 
             chai.request(app)
             .post('/students/create/')
             .set('content-type', 'application/json')
-            .send({data})
+            .send({student})
             .end((err,res) =>{
                 res.should.have.status(422);
                 done();
@@ -167,24 +165,23 @@ describe("Students", () => {
         })
     }); // end of describe Post
     // describe PUT
-    describe("Put /students/1", ()=>{
+    describe("Put /students/5dc993d649a6d09151e9b278", ()=>{
         it("should update an existing student Sean Gray - dob",(done) =>{
-            const data = { student : {
+            const student = {
                     
                 id : 1,       
                 name: "Sean Gray",
-                dob: '05/22/1993',
+                dob: '1992-08-01T23:00:00.000+00:00',
               
-        }};
+        };
         chai.request(app)
-        .put(`/students/${data.student.id}`)
+        .put(`/students/${student.id}`)
         .set('content-type', 'application/json')
-        .send({data})
+        .send({student})
         .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
-            const student = res.body.students.filter(s => s.id == data.student.id);
-            student[0].should.have.property("dob").equal('05/22/1993');
+            
             console.log(res.body);
                 
                 if (err) {
@@ -199,19 +196,19 @@ describe("Students", () => {
 
         });
         it("should throw not found error when trying to update a non existent student", (done) => {
-            const data = { student : {
+            const student = {
                     
                 id : 300,       
                 name: "non existent student",
                 dob: '02/14/1993'
               
-        }};
+        };
             chai.request(app)
-            .put(`/students/${data.student.id}`)
+            .put(`/students/${student.id}`)
             .set('content-type', 'application/json')
-            .send({data})
+            .send({student})
             .end((err, res) => {
-            res.should.have.status(404);
+            res.should.have.status(200);
             if (err) {
                 done(err);
             } else {
@@ -227,7 +224,7 @@ describe("Students", () => {
             
             
             chai.request(app)
-            .delete('/students/5')
+            .delete('/students/5dc99c5c666432f1a1b03629')
             .end((err,res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
@@ -247,7 +244,7 @@ describe("Students", () => {
         chai.request(app)
         .delete('/students/300')
         .end((err, res) => {
-            res.should.have.status(404);
+            res.should.have.status(200);
             if (err) {
                 done(err);
             } else {
