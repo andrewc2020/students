@@ -10,6 +10,6 @@ const connectDb = () => {
   const models = {Kitten};
  
 
+ export default connectDb;
  
-  export default connectDb;
   

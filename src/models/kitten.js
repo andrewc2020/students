@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
+
 let kittySchema = new mongoose.Schema({
+    id: int,
     name: String
   });
 // NOTE: methods must be added to the schema before compiling it with mongoose.model()

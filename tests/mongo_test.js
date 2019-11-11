@@ -94,19 +94,19 @@ describe('#4 connect using env',()=>{
 describe('add using pre-registered schema',()=>{
     it('should add a kitten',()=>{
         if(connectDb()){
-            let fluffy = new Kitten({name: 'fluffy'});
-            let silence = new Kitten({name:'silence'});
-            let griselda = new Kitten({name:'griselda'});
-            griselda.speak();
-            griselda.save();
-            silence.save();
-            fluffy.save((err)=>{
-                console.log(err);
-                
-
+            //find number of kittens
+            const numberOfKittens = 0;
+            Kitten.find((err,kittens)=>{
+                numberOfKittens = kittens.length;
             })
-            // let db = mongoose.connection;
-            //     db.close();
+            
+            let griselda = new Kitten({id: numberOfKittens + 1, name:'griselda'});
+            griselda.speak();
+            griselda.save((err)=>{
+                if(err){console.log(err);}
+            });
+            
+            
         }
     })
 })
