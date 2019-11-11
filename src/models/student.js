@@ -19,13 +19,13 @@ const studentSchema = new Mongoose.Schema({
           unique: false
       }
 })
-const studentsSchema = new Mongoose.Schema([studentSchema]);
+
 
 
 
 
 const Student = mongoose.model('Student', studentSchema);
-const Students = mongoose.model('Students',studentsSchema);
+
 
 
 export default {Student, Students};

@@ -1,8 +1,13 @@
 import { Router } from 'express';
 import StudentController from '../controllers/studentController';
 import CourseController from '../controllers/courseController';
+import KittenController from '../controllers/kittenController';
+
+
+
 
 const routes = Router();
+routes.get('/kittens/', KittenController.getAllKittens);
 routes.get('/students/', StudentController.getAllStudents);
 routes.get('/students/:id', StudentController.getSingleStudent);
 routes.get('/students/sortby/age',StudentController.getStudentsByAge);

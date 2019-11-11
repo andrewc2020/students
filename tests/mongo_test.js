@@ -3,6 +3,8 @@ import assert from 'assert';
 import _calculateAge from '../src/utils/age';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
+import models, { connectDb } from '../src/models';
+import Kitten from '../src/models/kitten';
 
 describe('mongo tests',()=>{
 
@@ -79,7 +81,7 @@ describe('#3 connect using mongoose',()=>{
 describe('#4 connect using env',()=>{
     it('should connect to local mongodb',()=>{
         dotenv.config();
-        mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true});
+        mongoose.connect(process.env.DATABASE_URL, { dbName : 'test', useUnifiedTopology: true, useNewUrlParser: true});
         let db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error:'));
         db.once('open', function() {
@@ -89,89 +91,59 @@ describe('#4 connect using env',()=>{
     });
     })
 })
+describe('add using pre-registered schema',()=>{
+    it('should add a kitten',()=>{
+        if(connectDb()){
+            let fluffy = new Kitten({name: 'fluffy'});
+            let silence = new Kitten({name:'silence'});
+            let griselda = new Kitten({name:'griselda'});
+            griselda.speak();
+            griselda.save();
+            silence.save();
+            fluffy.save((err)=>{
+                console.log(err);
+                
+
+            })
+            // let db = mongoose.connection;
+            //     db.close();
+        }
+    })
+})
 
 describe('#5 retrieve all kittens',()=>{
     it('should return all kittens',()=>{
-        
-        mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true});
-        let db = mongoose.connection;
-        db.on('error', console.error.bind(console, 'connection error:'));
-        db.once('open', function() {
-  // we're connected!
-            assert.ok("connection established");
-            mongoose.set('debug' , true);
-            try{
-                let kittySchema = new mongoose.Schema({
-                    name: String
-                  });
-                // NOTE: methods must be added to the schema before compiling it with mongoose.model()
-                kittySchema.methods.speak = function () {
-                let greeting = this.name
-                        ? "Meow name is " + this.name
-                : "I don't have a name";
-                console.log(greeting);
-                }
-      
-      let Kitten = mongoose.model('Kitten', kittySchema);
-            
-            Kitten.find({name:'fluffy'},(err, kittens)=>{
-                if(err) throw err;
-                console.log('all the kittens');
+        if(connectDb()){
+            mongoose.set('debug',true);
+            console.log('connection established');
+            Kitten.find((err,kittens)=>{
+                if(err){console.log(err);}
                 console.log(kittens);
-                
-            })
-
-            Kitten.deleteMany(()=>{
-
-            });
-        
-    } catch (err) {
-        console.log('err' + err);
-        
-      }
-                  
-            
-                
-                //assert.strictEqual(kittens.count(),1)
-               
-
-            
-            
-            
-            db.close();
-    }); //end of db.once
-    }) //end of it
-}) //end of describe
-describe('#6 connect using schema',()=>{
-    it('should connect to local mongodb',()=>{
-        dotenv.config();
-        mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true});
-        let db = mongoose.connection;
-        db.on('error', console.error.bind(console, 'connection error:'));
-        db.once('open', function() {
-  // we're connected!
-            assert.ok("connection established");
-            
-            //db.collection("kittens").drop();
-            let Kitten = mongoose.model('Kitten');
-            
-            let silence = new Kitten({ name: 'Silence' });
-            silence.save((err,silence)=>{
-                if(err) return console.error(err);
-                silence.speak();
+                console.log('all the kittens');
+                console.log(kittens[0].speak())
 
             })
-            console.log(silence.name); // 'Silence'
-            let fluffy = new Kitten({ name: 'fluffy' });
-            fluffy.speak(); // "Meow name is fluffy"
-            fluffy.save( function (err, fluffy) {
-                if (err) return console.error(err);
-                fluffy.speak();
-              });
-           
-            db.close();
-            
-    }); //end of connect
-    }) //end of it
-})  //end of describe
+            // let db = mongoose.connection;
+            // db.close();
+
+        }; // end of if connect
+    });// end of it
+}); // end of describe
+
+
+describe('delete using pre-registered schema',()=>{
+    it('should delete one kitten',()=>{
+        if(connectDb()){
+            Kitten.deleteMany({name:'fluffy'},(err)=>{
+                console.log(err);
+
+
+            })
+            // let db = mongoose.connection;
+            //     db.close();
+        }
+    })
+})
+
+        
 }) // end of mongo tests
