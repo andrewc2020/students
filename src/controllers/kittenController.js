@@ -18,30 +18,19 @@ class KittenController{
                     kittens,
                     message: "All the kittens"
         
-                });
+                });  // end return
     
                 
-            })
-        }
+            }) //end find
+        } // end if connect
 
-           
-            
-       
-
-        
-        
-       
-        
-        
-
-    }
+    } // end method
     static getSingleKitten(req,res){
-        if(connectDb()){
-            Kitten.findOne({_id: ObjectId("5dc930dabd59b1c1ba22afae")},(err, kitten)=>{
-                return res.status(200).json({ kitten, message: "a single kitten record"})
+       
+                return res.status(200).json({ message: "a single kitten record"})
 
-            })
-        }
+            
+        
 
     }
 
