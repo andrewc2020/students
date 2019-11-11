@@ -136,11 +136,12 @@ describe('delete using pre-registered schema',()=>{
 
 
             })
-            // let db = mongoose.connection;
-            //     db.close();
+            
         }
     })
 })
+
+
 
         
 }) // end of mongo tests

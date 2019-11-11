@@ -455,3 +455,59 @@ describe('courses', () =>{
     
 
 }); // end of describe courses
+
+describe('kittens',()=>{
+    describe('get all kittens',()=>{
+
+    
+    it('should retrieve kittens',(done)=>{
+        chai.request(app)
+        
+        .get('/kittens')
+        .end((err,res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            console.log(res.body);
+            if (err) {
+                done(err);
+            } else {
+                done();
+            }
+
+        
+    })
+})
+
+describe('get one kitten',()=>{
+    it('should retrieve one kitten',(done)=>{
+        chai.request(app)
+        
+        .get('/kittens/5dc9496ef94bb8cfb1ad3a3c')
+        .end((err,res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            console.log(res.body);
+            if (err) {
+                done(err);
+            } else {
+                done();
+            }}) // end of end
+        })
+
+})// end of it should
+}) // end of describe get one kitten
+describe('delete one kitten',()=>{
+    it('should delete one kitten',(done)=>{
+        
+        chai.request(app)
+        
+        .delete('/kittens/delete/5dc951b335288cd330595f1d')
+        .end((err,res) => {
+            res.should.have.status(200);
+            done();
+        })
+
+    })
+})
+}) // end of describe kittens
+
