@@ -509,5 +509,23 @@ describe('delete one kitten',()=>{
 
     })
 })
+describe('get kittens sorted by name',()=>{
+    it('should retrieve all kittens by name in alphabetical order',(done)=>{
+        chai.request(app)
+        .get('/kittens/sortby/name')
+        .end((err,res)=>{
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            if (err) {
+                done(err);
+            } else {
+                done();
+            }
+
+        })
+
+    }
+    )
+})
 }) // end of describe kittens
 

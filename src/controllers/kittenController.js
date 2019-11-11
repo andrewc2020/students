@@ -25,6 +25,18 @@ class KittenController{
         } // end if connect
 
     } // end method
+    static getAllKittensSortedByName(req,res){
+        if(connectDb()){
+            Kitten.find((err,kittens)=>{
+                if(err){return res.status(500);}
+                const sortedByName = kittens.sort((a,b) => (a.name > b.name ? 1 : -1));
+                return res.status(200).json({
+                    sortedByName,
+                    message: "all the kittens sorted by name"
+                })
+            })
+        }
+    }
     static getSingleKitten(req,res){
         if(connectDb()){
             Kitten.findById(req.params.id,(err,kitten)=>{
@@ -32,6 +44,7 @@ class KittenController{
 
             })
         }
+    
        
                 
 

@@ -9,6 +9,7 @@ import KittenController from '../controllers/kittenController';
 const routes = Router();
 
 routes.get('/kittens/', KittenController.getAllKittens);
+routes.get('/kittens/sortby/name',KittenController.getAllKittensSortedByName);
 routes.get('/kittens/:id',KittenController.getSingleKitten);
 routes.post('/kittens/create/',KittenController.addKitten);
 routes.delete('/kittens/delete/:id',KittenController.deleteKitten);
