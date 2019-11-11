@@ -29,7 +29,7 @@ class StudentController {
     
     static getAllStudents(req, res) {
 
-      if(connectDb()){
+      
 
       
         Student.find((err, students)=>{
@@ -38,11 +38,8 @@ class StudentController {
                     message: "All the students"
               })
         })
-      }
-      else
-      {
-            return res.status(500);
-      }
+      
+      
       
     
           
@@ -51,7 +48,7 @@ class StudentController {
     // Get a single student
     static getSingleStudent(req, res) {
      
-           if(connectDb()){
+           
                  Student.findById(req.params.id,(err, student)=>{
                        
                        
@@ -62,12 +59,12 @@ class StudentController {
 
                        })
                  })
-           }
+           
      
     }
     // Get students sorted by age descending
     static getStudentsByAge(req,res){
-          if(connectDb()){
+          
                 Student.find((err,students)=>{
                   const sortedByAge = students.sort((a,b) => (new Date(a.dob) > new Date(b.dob)) ? 1 : -1);
                   return res.status(200).json({
@@ -76,14 +73,14 @@ class StudentController {
                   });
 
                 })
-          }
+          
 
            
     }
 
     // Get students sorted by age ascending
     static getStudentsByAgeAsc(req,res){
-          if(connectDb()){
+          
                 Student.find((err,students)=>{
                   const sortedByAge = students.sort((a,b) => (new Date(a.dob) < new Date(b.dob)) ? 1 : -1);
                   return res.status(200).json({
@@ -92,7 +89,7 @@ class StudentController {
                   });
 
                 })
-          }
+          
      
 }
 
@@ -100,7 +97,7 @@ class StudentController {
     
     // Get students sorted by name
     static getStudentsByName(req,res){
-          if(connectDb()){
+          
                 Student.find((err,students)=>{
                   const sortedByName = students.sort((a,b) => (a.name > b.name ? 1 : -1));
                   return res.status(200).json({
@@ -109,7 +106,7 @@ class StudentController {
                   });
 
                 })
-          }
+          
       
     
       }
@@ -117,7 +114,7 @@ class StudentController {
 static updateStudent(req,res){
       // const student = students.find( s => s.id === parseInt(req.params.id));
       // if(!student){
-            if(connectDb()){
+            
                   Student.updateOne({_id:req.params.id},(err, student)=>{
                         student.name = req.body.student.name;
                         student.dob = req.body.student.dob
@@ -126,7 +123,7 @@ static updateStudent(req,res){
                               message: "updated successfully"
                         })
                   })
-            }
+            
       
             
             
@@ -136,12 +133,12 @@ static updateStudent(req,res){
             
       // delete a student
       static deleteStudent(req,res){
-           if(connectDb()){
+           
                  Student.deleteOne({_id: req.params.id},(err)=>{
                        return StudentController.getAllStudents(req,res);
 
                  })
-           }
+           
       }
 
       // add a student
@@ -167,17 +164,15 @@ static updateStudent(req,res){
         return;
     }
 
-            if(connectDb()){
+            
                   let s = new Student(req.body.student);
                   s.save((err)=>{
                         if(err){ res.status(500);}
                         return StudentController.getAllStudents(req,res);
 
                   })
-            }
-            else{
-                  return res.status(500);
-            }
+            
+            
     
             
       }

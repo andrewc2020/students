@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import routes from './routes/index';
+import connectDb from './models';
 
 
 
@@ -19,9 +20,12 @@ app.use('/', routes);
 
 // Start our server
 
-    app.listen(port, () => {
+connectDb().then(async ()=>{
+    await app.listen(port, () => {
         console.log(`Server started on port ${port}`);
     })
+})
+    
 
 
 
