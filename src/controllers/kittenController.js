@@ -11,7 +11,7 @@ class KittenController{
     static getAllKittens(req,res){
 
         
-        if(connectDb()){
+            if(connectDb()){
             Kitten.find((err,kittens)=>{
 
                 return res.status(200).json({
@@ -22,20 +22,26 @@ class KittenController{
     
                 
             })
+        }
 
            
             
-        }
-        else{
-            return res.status(501);
-
-        }
+       
 
         
         
        
         
         
+
+    }
+    static getSingleKitten(req,res){
+        if(connectDb()){
+            Kitten.findOne({_id: ObjectId("5dc930dabd59b1c1ba22afae")},(err, kitten)=>{
+                return res.status(200).json({ kitten, message: "a single kitten record"})
+
+            })
+        }
 
     }
 

@@ -3,7 +3,7 @@ import assert from 'assert';
 import _calculateAge from '../src/utils/age';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
-import models, { connectDb } from '../src/models';
+import connectDb from '../src/models';
 import Kitten from '../src/models/kitten';
 
 describe('mongo tests',()=>{
@@ -95,12 +95,9 @@ describe('add using pre-registered schema',()=>{
     it('should add a kitten',()=>{
         if(connectDb()){
             //find number of kittens
-            const numberOfKittens = 0;
-            Kitten.find((err,kittens)=>{
-                numberOfKittens = kittens.length;
-            })
             
-            let griselda = new Kitten({id: numberOfKittens + 1, name:'griselda'});
+            
+            let griselda = new Kitten({name:'griselda'});
             griselda.speak();
             griselda.save((err)=>{
                 if(err){console.log(err);}

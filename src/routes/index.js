@@ -7,6 +7,7 @@ import KittenController from '../controllers/kittenController';
 
 
 const routes = Router();
+routes.get('kittens/:id',KittenController.getSingleKitten);
 routes.get('/kittens/', KittenController.getAllKittens);
 routes.get('/students/', StudentController.getAllStudents);
 routes.get('/students/:id', StudentController.getSingleStudent);
