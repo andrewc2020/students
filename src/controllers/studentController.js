@@ -1,7 +1,6 @@
 import {validationResult} from 'express-validator/check';
 import _ from 'lodash';
 import _calculateAge from '../utils/age';
-import connectDb from '../models';
 import Student from '../models/student';
 
 
@@ -32,8 +31,8 @@ class StudentController {
       
 
       
-        Student.find((err, students)=>{
-              return res.status(200).json({
+        Student.find(async (err, students)=>{
+             return await res.status(200).json({
                     students,
                     message: "All the students"
               })
@@ -49,11 +48,11 @@ class StudentController {
     static getSingleStudent(req, res) {
      
            
-                 Student.findById(req.params.id,(err, student)=>{
+                 Student.findById(req.params.id, async (err, student)=>{
                        
                        
                       
-                  return res.status(200).json({
+                  return await res.status(200).json({
                         student,
                         message : "A single student record"
 
@@ -65,9 +64,9 @@ class StudentController {
     // Get students sorted by age descending
     static getStudentsByAge(req,res){
           
-                Student.find((err,students)=>{
+                Student.find(async (err,students)=>{
                   const sortedByAge = students.sort((a,b) => (new Date(a.dob) > new Date(b.dob)) ? 1 : -1);
-                  return res.status(200).json({
+                  return await res.status(200).json({
                         sortedByAge,
                         message: "Students by age descending - oldest to youngest",
                   });
@@ -81,9 +80,9 @@ class StudentController {
     // Get students sorted by age ascending
     static getStudentsByAgeAsc(req,res){
           
-                Student.find((err,students)=>{
+                Student.find( async (err,students)=>{
                   const sortedByAge = students.sort((a,b) => (new Date(a.dob) < new Date(b.dob)) ? 1 : -1);
-                  return res.status(200).json({
+                  return await res.status(200).json({
                         sortedByAge,
                         message: "Students by age ascending - youngest to oldest",
                   });
@@ -98,9 +97,9 @@ class StudentController {
     // Get students sorted by name
     static getStudentsByName(req,res){
           
-                Student.find((err,students)=>{
+                Student.find(async (err,students)=>{
                   const sortedByName = students.sort((a,b) => (a.name > b.name ? 1 : -1));
-                  return res.status(200).json({
+                  return await res.status(200).json({
                         sortedByName,
                         message: "Students by name",
                   });
@@ -115,10 +114,10 @@ static updateStudent(req,res){
       // const student = students.find( s => s.id === parseInt(req.params.id));
       // if(!student){
             
-                  Student.updateOne({_id:req.params.id},(err, student)=>{
+                  Student.updateOne({_id:req.params.id}, async (err, student)=>{
                         student.name = req.body.student.name;
                         student.dob = req.body.student.dob
-                        return res.status(200).json({
+                        return await res.status(200).json({
                               student,
                               message: "updated successfully"
                         })
@@ -134,8 +133,8 @@ static updateStudent(req,res){
       // delete a student
       static deleteStudent(req,res){
            
-                 Student.deleteOne({_id: req.params.id},(err)=>{
-                       return StudentController.getAllStudents(req,res);
+                 Student.deleteOne({_id: req.params.id},async (err)=>{
+                       return await StudentController.getAllStudents(req,res);
 
                  })
            
@@ -166,9 +165,9 @@ static updateStudent(req,res){
 
             
                   let s = new Student(req.body.student);
-                  s.save((err)=>{
+                  s.save(async (err)=>{
                         if(err){ res.status(500);}
-                        return StudentController.getAllStudents(req,res);
+                        return await StudentController.getAllStudents(req,res);
 
                   })
             
