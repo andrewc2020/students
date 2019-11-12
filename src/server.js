@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import routes from './routes/index';
 import connectDb from './models';
+import cors from 'cors';
 
 
 
@@ -16,6 +17,10 @@ app.use(bodyParser.json());
 // Register our routes in app
 
 app.use('/', routes);
+
+app.use(cors());
+
+
 
 
 // Start our server

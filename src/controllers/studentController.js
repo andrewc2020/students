@@ -146,10 +146,7 @@ static updateStudent(req,res){
                   // Finds the validation errors in this request and wraps them in an object with handy functions
                   const errors = validationResult(req);
                   
-                  if (req.body.student.name.length < 2) {
-                       
-                    return res.status(422).json({ errors: errors.array() });
-                  }
+                  
                   if(_calculateAge(new Date(req.body.student.dob)) < 18){
                         
                         return res.status(422).json({ errors: errors.array() });

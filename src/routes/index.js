@@ -2,12 +2,14 @@ import { Router } from 'express';
 import StudentController from '../controllers/studentController';
 import CourseController from '../controllers/courseController';
 import KittenController from '../controllers/kittenController';
+import userController from '../controllers/userController';
+import {check} from 'express-validator/check';
 
 
 
 
 const routes = Router();
-
+routes.post('/user/',[check('userName').isEmail()],userController.addUser)
 routes.get('/kittens/', KittenController.getAllKittens);
 routes.get('/kittens/sortby/name',KittenController.getAllKittensSortedByName);
 routes.get('/kittens/:id',KittenController.getSingleKitten);
@@ -18,7 +20,7 @@ routes.get('/students/:id', StudentController.getSingleStudent);
 routes.get('/students/sortby/age',StudentController.getStudentsByAge);
 routes.get('/students/sortby/age/asc',StudentController.getStudentsByAgeAsc)
 routes.get('/students/sortby/name',StudentController.getStudentsByName);
-routes.post('/students/create/', StudentController.addStudent);
+routes.post('/students/create/',[check('student.name').isLength({min: 2})],StudentController.addStudent);
 routes.put('/students/:id', StudentController.updateStudent);
 routes.delete('/students/:id', StudentController.deleteStudent);
 routes.get('/courses/', CourseController.getAllCourses);

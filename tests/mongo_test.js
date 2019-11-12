@@ -79,7 +79,7 @@ describe('#3 connect using mongoose',()=>{
     })
 })
 describe('#4 connect using env',()=>{
-    it('should connect to local mongodb',()=>{
+    it('should connect to environment mongodb',()=>{
         dotenv.config();
         mongoose.connect(process.env.DATABASE_URL, { dbName : 'test', useUnifiedTopology: true, useNewUrlParser: true});
         let db = mongoose.connection;
@@ -117,11 +117,14 @@ describe('#5 retrieve all kittens',()=>{
                 if(err){console.log(err);}
                 console.log(kittens);
                 console.log('all the kittens');
-                console.log(kittens[0].speak())
+                if(kittens && kittens.length >0){
+                    console.log(kittens[0].speak())
+
+                }
+                
 
             })
-            // let db = mongoose.connection;
-            // db.close();
+            
 
         }; // end of if connect
     });// end of it
@@ -131,7 +134,7 @@ describe('#5 retrieve all kittens',()=>{
 describe('delete using pre-registered schema',()=>{
     it('should delete one kitten',()=>{
         if(connectDb()){
-            Kitten.deleteMany({name:'fluffy'},(err)=>{
+            Kitten.deleteMany({name:'griselda'},(err)=>{
                 console.log(err);
 
 
