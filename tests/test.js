@@ -143,7 +143,7 @@ describe("Students", () => {
                 res.should.have.status(422);
                 done();
             });
-
+            done();
 
         })
         it("should throw an error when the age is out of range",(done)=>{
