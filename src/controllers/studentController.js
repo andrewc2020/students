@@ -45,14 +45,14 @@ class StudentController {
       
     }
     // Get a single student
-    static getSingleStudent(req, res) {
+    static async getSingleStudent(req, res) {
      
            
-                 Student.findById(req.params.id, async (err, student)=>{
+                 await Student.findById(req.params.id, (err, student)=>{
                        
                        
                       
-                  return await res.status(200).json({
+                  return res.status(200).json({
                         student,
                         message : "A single student record"
 
@@ -141,7 +141,7 @@ static updateStudent(req,res){
       }
 
       // add a student
-      static addStudent(req,res){
+      static async addStudent(req,res){
             
                   // Finds the validation errors in this request and wraps them in an object with handy functions
                   const errors = validationResult(req);
@@ -164,9 +164,9 @@ static updateStudent(req,res){
 
             
                   let s = new Student(req.body.student);
-                  s.save(async (err)=>{
+                  await s.save((err)=>{
                         if(err){ res.status(500);}
-                        return await StudentController.getAllStudents(req,res);
+                        // return await StudentController.getAllStudents(req,res);
 
                   })
             

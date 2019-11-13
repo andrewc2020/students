@@ -4,25 +4,30 @@ import CourseController from '../controllers/courseController';
 import KittenController from '../controllers/kittenController';
 import userController from '../controllers/userController';
 import {check} from 'express-validator/check';
+import auth from '../middleware/auth';
+import {bcrypt} from 'bcrypt';
+import User from '../models/user'
+import  validate from '../models/user'
 
 
 
 
 const routes = Router();
-routes.post('/user/',[check('userName').isEmail()],userController.addUser)
+routes.post('/user/', userController.addUser);
+routes.get('/user/current', auth, userController.getCurrent);
 routes.get('/kittens/', KittenController.getAllKittens);
-routes.get('/kittens/sortby/name',KittenController.getAllKittensSortedByName);
+routes.get('/kittens/sortby/name', KittenController.getAllKittensSortedByName);
 routes.get('/kittens/:id',KittenController.getSingleKitten);
 routes.post('/kittens/create/',KittenController.addKitten);
 routes.delete('/kittens/delete/:id',KittenController.deleteKitten);
-routes.get('/students/', StudentController.getAllStudents);
-routes.get('/students/:id', StudentController.getSingleStudent);
-routes.get('/students/sortby/age',StudentController.getStudentsByAge);
-routes.get('/students/sortby/age/asc',StudentController.getStudentsByAgeAsc)
-routes.get('/students/sortby/name',StudentController.getStudentsByName);
+routes.get('/students/',auth, StudentController.getAllStudents);
+routes.get('/students/:id', auth, StudentController.getSingleStudent);
+routes.get('/students/sortby/age', auth, StudentController.getStudentsByAge);
+routes.get('/students/sortby/age/asc', auth , StudentController.getStudentsByAgeAsc)
+routes.get('/students/sortby/name',auth, StudentController.getStudentsByName);
 routes.post('/students/create/',[check('student.name').isLength({min: 2})],StudentController.addStudent);
-routes.put('/students/:id', StudentController.updateStudent);
-routes.delete('/students/:id', StudentController.deleteStudent);
+routes.put('/students/:id', auth, StudentController.updateStudent);
+routes.delete('/students/:id', auth, StudentController.deleteStudent);
 routes.get('/courses/', CourseController.getAllCourses);
 routes.get('/courses/:id', CourseController.getSingleCourse);
 routes.get('/courses/sortby/name',CourseController.getCoursesByName);
@@ -30,5 +35,10 @@ routes.post('/courses/create/', CourseController.addCourse);
 routes.put('/courses/:id', CourseController.updateCourse);
 routes.delete('/courses/:id', CourseController.deleteCourse);
 
+  
+  
+ 
+  
+  
 
 export default routes;

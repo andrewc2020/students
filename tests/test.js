@@ -11,8 +11,9 @@ describe("Students", () => {
         // Test to get all students record
         it("should get all students record", (done) => {
              chai.request(app)
-                 .get('/students')
-                 .end((err, res) => {
+                .get('/students')
+                .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
+                .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
                      console.log(res.body);
@@ -23,8 +24,9 @@ describe("Students", () => {
         it("should get a single student record", (done) => {
              const id = 1;
              chai.request(app)
-                 .get(`/students/${id}`)
-                 .end((err, res) => {
+             .get(`/students/${id}`)
+             .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
+             .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
                      done();
@@ -35,8 +37,9 @@ describe("Students", () => {
         it("should not get a single student record", (done) => {
              const id = 5;
              chai.request(app)
-                 .get(`/students/${id}`)
-                 .end((err, res) => {
+             .get(`/students/${id}`)
+             .set({'x-access-token' :'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
+             .end((err, res) => {
                      res.should.have.status(200);
                      
                      done();
@@ -46,8 +49,9 @@ describe("Students", () => {
          //Test to get students sorted by age
          it("should return students sorted by age desc",(done) => {
              chai.request(app)
-                .get('/students/sortby/age')
-                .end((err, res) => {
+             .get('/students/sortby/age')
+             .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})   
+             .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
                     
@@ -61,8 +65,9 @@ describe("Students", () => {
           //Test to get students sorted by age
           it("should return students sorted by age asc",(done) => {
             chai.request(app)
-               .get('/students/sortby/age/asc')
-               .end((err, res) => {
+            .get('/students/sortby/age/asc')
+            .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
+            .end((err, res) => {
                    res.should.have.status(200);
                    
                    
@@ -74,6 +79,7 @@ describe("Students", () => {
          it("should return students sorted by first name", (done)=>{
              chai.request(app)
              .get('/students/sortby/name')
+             .set({'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
              .end((err, res) =>{
                  res.should.have.status(200);
                  res.body.should.be.a('object');
@@ -108,12 +114,12 @@ describe("Students", () => {
         };
             chai.request(app)
             .post('/students/create/')
-            .set('content-type', 'application/json')
+            .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
             .send({student})
             .end((err, res) =>{
                 res.should.have.status(200);
                 res.body.should.be.a('object');
-                console.log(res.body);
+               
                 
                 if (err) {
                     done(err);
@@ -137,7 +143,7 @@ describe("Students", () => {
 
             chai.request(app)
             .post('/students/create/')
-            .set('content-type', 'application/json')
+            .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
             .send({student})
             .end((err,res) =>{
                 res.should.have.status(422);
@@ -154,7 +160,7 @@ describe("Students", () => {
 
             chai.request(app)
             .post('/students/create/')
-            .set('content-type', 'application/json')
+            .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
             .send({student})
             .end((err,res) =>{
                 res.should.have.status(422);
@@ -176,7 +182,7 @@ describe("Students", () => {
         };
         chai.request(app)
         .put(`/students/${student.id}`)
-        .set('content-type', 'application/json')
+        .set({'x-access-token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
         .send({student})
         .end((err, res) => {
             res.should.have.status(200);
@@ -205,7 +211,7 @@ describe("Students", () => {
         };
             chai.request(app)
             .put(`/students/${student.id}`)
-            .set('content-type', 'application/json')
+            .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0')
             .send({student})
             .end((err, res) => {
             res.should.have.status(200);
@@ -225,6 +231,7 @@ describe("Students", () => {
             
             chai.request(app)
             .delete('/students/5dc99c5c666432f1a1b03629')
+            .set({'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
             .end((err,res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
@@ -243,6 +250,7 @@ describe("Students", () => {
         
         chai.request(app)
         .delete('/students/300')
+        .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
         .end((err, res) => {
             res.should.have.status(200);
             if (err) {

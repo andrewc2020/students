@@ -7,6 +7,7 @@ import cors from 'cors';
 
 
 
+
 // Instantiate express
 const app = express();
 // Set our port
@@ -14,6 +15,12 @@ const port = process.env.PORT || 8000;
 // Configure app to user bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+//use config module to get the privatekey, if no private key set, end the application
+if (!process.env.my_private_key) {
+    console.error("FATAL ERROR: my_private_key is not defined.");
+    process.exit(1);
+  }
 // Register our routes in app
 
 app.use('/', routes);
