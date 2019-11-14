@@ -143,7 +143,7 @@ static updateStudent(req,res){
       }
 
       // add a student
-      static async addStudent(req,res){
+      static addStudent(req,res){
             
                   // Finds the validation errors in this request and wraps them in an object with handy functions
                  
@@ -155,13 +155,13 @@ static updateStudent(req,res){
                  if(!errors.isEmpty()){ return res.status(422)}
                   
                   
-                  if(_calculateAge(new Date(req.body.student.dob)) < 18){
+                  if(_calculateAge(new Date(req.body.dob)) < 18){
                         
                         return res.status(422).json({ errors: errors.array() });
                   }
             
             
-            var my_param = req.body.student;// info to create new student
+            var my_param = req.body;// info to create new student
 
     if (!my_param) {
         res.status(400).json({error : 'data is missing'});
@@ -170,10 +170,10 @@ static updateStudent(req,res){
 
             
                   let s = new Student({
-                        name: req.body.student.name,
-                        dob: req.body.student.dob
+                        name: req.body.name,
+                        dob: req.body.dob
                   });
-                  await s.save((err,result)=>{
+                  s.save((err,result)=>{
                         if(err){return res.status(422).json({message:err})}
                         return res.status(200).json({result, message:"success"});
 
