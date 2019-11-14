@@ -132,7 +132,7 @@ describe("Students", () => {
 
 
             });
-       
+        
 
         });
         it("should throw an error when the name is empty",(done)=>{
@@ -175,9 +175,9 @@ describe("Students", () => {
         it("should update an existing student Sean Gray - dob",(done) =>{
             const student = {
                     
-                id : 1,       
+                id:    "5dc993d649a6d09151e9b278" ,
                 name: "Sean Gray",
-                dob: '1992-08-01T23:00:00.000+00:00',
+                dob: "1992-08-01T23:00:00.000+00:00"
               
         };
         chai.request(app)
@@ -201,10 +201,10 @@ describe("Students", () => {
 
 
         });
-        it("should throw not found error when trying to update a non existent student", (done) => {
+        it("should not throw not found error when trying to update a non existent student", (done) => {
             const student = {
                     
-                id : 300,       
+                id : '5dcd46ef620bb5003485023854',       
                 name: "non existent student",
                 dob: '02/14/1993'
               
@@ -230,7 +230,7 @@ describe("Students", () => {
             
             
             chai.request(app)
-            .delete('/students/5dc99c5c666432f1a1b03629')
+            .delete('/students/5dcd1696a6c47c00b285e8d2')
             .set({'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
             .end((err,res) => {
                 res.should.have.status(200);
@@ -249,7 +249,7 @@ describe("Students", () => {
     it("should throw a not found error if the student does not exist", (done) => {
         
         chai.request(app)
-        .delete('/students/300')
+        .delete('/students/5dcd46ef620bb5099a79503b')
         .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
         .end((err, res) => {
             res.should.have.status(200);
@@ -484,12 +484,12 @@ describe('kittens',()=>{
 })
 
 describe('get one kitten',()=>{
-    it('should retrieve one kitten',(done)=>{
+    it('should throw an error of kitten does not exist',(done)=>{
         chai.request(app)
         
         .get('/kittens/5dc9496ef94bb8cfb1ad3a3c')
         .end((err,res) => {
-            res.should.have.status(200);
+            res.should.have.status(404);
             res.body.should.be.a('object');
             console.log(res.body);
             if (err) {

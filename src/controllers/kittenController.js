@@ -43,6 +43,9 @@ class KittenController{
     static getSingleKitten(req,res){
         
             Kitten.findById(req.params.id,(err,kitten)=>{
+                if(!kitten){
+                    return res.status(404).json({message: "kitten not found"});
+                }
                 return res.status(200).json({ kitten, message: "a single kitten record"})
 
             })

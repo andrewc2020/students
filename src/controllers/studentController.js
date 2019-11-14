@@ -3,6 +3,8 @@ import _ from 'lodash';
 import _calculateAge from '../utils/age';
 import Student from '../models/student';
 
+import Joi_validate from '@hapi/joi';
+
 
 
 class StudentController {
@@ -144,8 +146,12 @@ static updateStudent(req,res){
       static async addStudent(req,res){
             
                   // Finds the validation errors in this request and wraps them in an object with handy functions
+                 
+                  
+                 
+                  
+                  
                   const errors = validationResult(req);
-
                  if(!errors.isEmpty()){ return res.status(422)}
                   
                   
@@ -163,13 +169,16 @@ static updateStudent(req,res){
     }
 
             
-                  let s = new Student(req.body.student);
-                  await s.save((err)=>{
-                        if(err){ res.status(500);}
-                        // return await StudentController.getAllStudents(req,res);
+                  let s = new Student({
+                        name: req.body.student.name,
+                        dob: req.body.student.dob
+                  });
+                  await s.save((err,result)=>{
+                        if(err){return res.status(422).json({message:err})}
+                        return res.status(200).json({result, message:"success"});
 
-                  })
-            
+                  });
+                 
             
     
             

@@ -25,7 +25,7 @@ routes.get('/students/:id', auth, StudentController.getSingleStudent);
 routes.get('/students/sortby/age', auth, StudentController.getStudentsByAge);
 routes.get('/students/sortby/age/asc', auth , StudentController.getStudentsByAgeAsc)
 routes.get('/students/sortby/name',auth, StudentController.getStudentsByName);
-routes.post('/students/create/',[check('student.name').isLength({min: 2})],StudentController.addStudent);
+routes.post('/students/create/', [check('student.name').isLength({min:2})] ,StudentController.addStudent);
 routes.put('/students/:id', auth, StudentController.updateStudent);
 routes.delete('/students/:id', auth, StudentController.deleteStudent);
 routes.get('/courses/', CourseController.getAllCourses);
