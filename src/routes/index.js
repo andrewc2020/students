@@ -13,7 +13,7 @@ import  validate from '../models/user'
 
 
 const routes = Router();
-routes.post('/user/',[check('email').isEmail()], userController.addUser);
+routes.post('/user/',[check('email').isEmail(),check('userName').isLength({min:2})],userController.addUser);
 routes.get('/user/current', auth, userController.getCurrent);
 routes.get('/kittens/', KittenController.getAllKittens);
 routes.get('/kittens/sortby/name', KittenController.getAllKittensSortedByName);
@@ -25,7 +25,7 @@ routes.get('/students/:id', auth, StudentController.getSingleStudent);
 routes.get('/students/sortby/age', auth, StudentController.getStudentsByAge);
 routes.get('/students/sortby/age/asc', auth , StudentController.getStudentsByAgeAsc)
 routes.get('/students/sortby/name',auth, StudentController.getStudentsByName);
-routes.post('/students/create/',[check*('name').isLength*({min:2})] ,StudentController.addStudent);
+routes.post('/students/create/',[auth, check('name').isLength({min:2})] , StudentController.addStudent);
 routes.put('/students/:id', auth, StudentController.updateStudent);
 routes.delete('/students/:id', auth, StudentController.deleteStudent);
 routes.get('/courses/', CourseController.getAllCourses);

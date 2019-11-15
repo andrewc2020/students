@@ -22,7 +22,7 @@ describe("Students", () => {
          });
         // Test to get single student record
         it("should get a single student record", (done) => {
-             const id = 1;
+             const id = "5dce74b2189244385fa2b51a";
              chai.request(app)
              .get(`/students/${id}`)
              .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
@@ -35,7 +35,7 @@ describe("Students", () => {
          
         // Test to not get single student record 
         it("should not get a single student record", (done) => {
-             const id = 5;
+             const id = '5dcd791c78d3c4276632004a';
              chai.request(app)
              .get(`/students/${id}`)
              .set({'x-access-token' :'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
@@ -108,8 +108,8 @@ describe("Students", () => {
             const student = {
                     
                         
-                name: 'Fred Bloggs',
-                dob: '1991-08-01T23:00:00.000+00:00'
+                "name": "Fred Bloggs",
+                "dob": "1991-08-01T23:00:00.000+00:00"
               
         };
             chai.request(app)
@@ -149,7 +149,7 @@ describe("Students", () => {
                 res.should.have.status(422);
                 done();
             });
-            done();
+            
 
         })
         it("should throw an error when the age is out of range",(done)=>{

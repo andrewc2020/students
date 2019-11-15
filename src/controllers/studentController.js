@@ -143,7 +143,7 @@ static updateStudent(req,res){
       }
 
       // add a student
-      static addStudent(req,res){
+      static async addStudent(req,res){
             
                   // Finds the validation errors in this request and wraps them in an object with handy functions
                  
@@ -152,7 +152,9 @@ static updateStudent(req,res){
                   
                   
                   const errors = validationResult(req);
-                 if(!errors.isEmpty()){ return res.status(422)}
+                  if (!errors.isEmpty()) {
+                  return res.status(422).json({ errors: errors.array() });
+                  }
                   
                   
                   if(_calculateAge(new Date(req.body.dob)) < 18){
@@ -173,7 +175,7 @@ static updateStudent(req,res){
                         name: req.body.name,
                         dob: req.body.dob
                   });
-                  s.save((err,result)=>{
+                  await s.save((err,result)=>{
                         if(err){return res.status(422).json({message:err})}
                         return res.status(200).json({result, message:"success"});
 
