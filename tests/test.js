@@ -106,26 +106,17 @@ describe("Students", () => {
         it("should add a student", (done)=>{
            
             const student = {
-                    
-                        
-                "name": "Fred Bloggs",
-                "dob": "1991-08-01T23:00:00.000+00:00"
-              
-        };
+                name: 'Jane Eyre',
+                dob: '2008-08-01T23:00:00.000+00:00'
+            };
+
             chai.request(app)
             .post('/students/create/')
             .set({'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGNjN2UyOWQ5M2JmYzc2MGM5NTkxOWUiLCJpYXQiOjE1NzM2ODI3Mjl9.wstne3FPAcWjI59Osx_3-NFNT-K-GhDMyaShNzB4W_0'})
             .send({student})
-            .end((err, res) =>{
-                res.should.have.status(200);
-                res.body.should.be.a('object');
-               
-                
-                if (err) {
-                    done(err);
-                } else {
-                    done();
-                }
+            .end((err,res) =>{
+                res.should.have.status(422);
+                done();
                 
                 
 

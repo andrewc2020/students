@@ -157,7 +157,7 @@ static updateStudent(req,res){
                   }
                   
                   
-                  if(_calculateAge(new Date(req.body.dob)) < 18){
+                  if(_calculateAge(new Date(req.body.student.dob)) < 18){
                         
                         return res.status(422).json({ errors: errors.array() });
                   }
@@ -172,8 +172,8 @@ static updateStudent(req,res){
 
             
                   let s = new Student({
-                        name: req.body.name,
-                        dob: req.body.dob
+                        name: req.body.student.name,
+                        dob: req.body.student.dob
                   });
                   await s.save((err,result)=>{
                         if(err){return res.status(422).json({message:err})}
