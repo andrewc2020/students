@@ -5,9 +5,7 @@ import KittenController from '../controllers/kittenController';
 import userController from '../controllers/userController';
 import {check} from 'express-validator/check';
 import auth from '../middleware/auth';
-import {bcrypt} from 'bcrypt';
-import User from '../models/user'
-import  validate from '../models/user'
+
 
 
 

@@ -2,7 +2,7 @@
 import {validationResult} from 'express-validator';
 import User from '../models/user';
 import validate from '../models/user';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt-nodejs';
 
 class userController{
     constructor(){
