@@ -16,7 +16,7 @@ routes.get('/user/current', auth, userController.getCurrent);
 routes.get('/kittens/', KittenController.getAllKittens);
 routes.get('/kittens/sortby/name', KittenController.getAllKittensSortedByName);
 routes.get('/kittens/:id',KittenController.getSingleKitten);
-routes.post('/kittens/create/',KittenController.addKitten);
+routes.post('/kittens/create/',[check('kitten.name').isLength({min:2})],KittenController.addKitten);
 routes.delete('/kittens/delete/:id',KittenController.deleteKitten);
 routes.get('/students/',auth, StudentController.getAllStudents);
 routes.get('/students/:id', auth, StudentController.getSingleStudent);

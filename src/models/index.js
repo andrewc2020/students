@@ -7,7 +7,7 @@ import Kitten from './kitten';
 
 dotenv.config();
 const connectDb = () => {
-    return mongoose.connect(process.env.DATABASE_URL, { dbName : 'test', useUnifiedTopology: true, useNewUrlParser: true});
+    return mongoose.connect(process.env.DATABASE_URL_LOCAL, { dbName : 'test', useUnifiedTopology: true, useNewUrlParser: true});
   };
   const models = {Kitten, Student, User};
 

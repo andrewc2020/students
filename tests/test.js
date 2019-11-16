@@ -455,7 +455,7 @@ describe('courses', () =>{
     
 
 }); // end of describe courses
-
+//Kittens
 describe('kittens',()=>{
     describe('get all kittens',()=>{
 
@@ -527,5 +527,65 @@ describe('get kittens sorted by name',()=>{
     }
     )
 })
+describe('kittens/create success',()=>{
+    it('should create a kitten',(done)=>{
+        const kitten = {
+                    
+                        
+            name: 'Marmalade'
+            
+          
+        };
+
+        chai.request(app)
+        .post(`/kittens/create`)
+        .set('content-type', 'application/json')
+        .send({kitten})
+        .end((err, res) =>{
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            console.log(res.body);
+            
+            if (err) {
+                done(err);
+            } else {
+                done();
+            }
+
+            
+
+        }); // end of end
+
+    })
+})
+describe('kittens/create fail',()=>{
+    it('should return a 422 error if the name is missing or less than two characters',(done)=>{
+        const data = { Kitten : {
+                    
+                        
+            name: 'M'
+            
+          
+    }};
+        chai.request(app)
+        .post(`/kittens/create`)
+        .set('content-type', 'application/json')
+        .send({data})
+        .end((err, res) =>{
+            res.should.have.status(422);
+            res.body.should.be.a('object');
+            console.log(res.body);
+            
+            if (err) {
+                done(err);
+            } else {
+                done();
+            }
+
+            
+
+        }); // end of end
+    })
+})//end of describe kitten create error
 }) // end of describe kittens
 

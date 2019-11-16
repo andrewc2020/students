@@ -1,5 +1,8 @@
 
 import Kitten from '../models/kitten';
+import validate from '../models/kitten';
+import {validationResult} from 'express-validator';
+
 
 
 class KittenController{
@@ -60,10 +63,17 @@ class KittenController{
     }
 
     static addKitten(req,res){
-        
-            let k = new Kitten(req.body.kitten);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+        }
+
+        const { error } = validate(req.body.kitten);
+        if (error) return res.status(400).send(error.details[0].message);
+
+            let k = new Kitten({name: req.body.kitten.name});
             k.save((err)=>{
-                if(err){return status(500)}
+                if(err){return res.status(500)}
                 
                 return KittenController.getAllKittens(req,res);
             })
