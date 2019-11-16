@@ -62,7 +62,7 @@ class KittenController{
 
     }
 
-    static addKitten(req,res){
+    static async addKitten(req,res){
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
@@ -72,10 +72,9 @@ class KittenController{
         if (error) return res.status(400).send(error.details[0].message);
 
             let k = new Kitten({name: req.body.kitten.name});
-            k.save((err)=>{
-                if(err){return res.status(500)}
-                
-                return KittenController.getAllKittens(req,res);
+            await k.save((err,result)=>{
+                if(err){return res.status(422).json({message:err})}
+                return res.status(200).json({result, message:"success"});
             })
         
     }
