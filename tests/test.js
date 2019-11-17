@@ -303,7 +303,7 @@ describe('courses', () =>{
             
             let firstCourse = res.body.sortedByName[0];
             if(firstCourse){
-            firstcourse.should.have.property('name').equal('Art in the 20th Century');
+            firstCourse.should.have.property('name').equal('Mandarin for beginners');
             }
 
             done();

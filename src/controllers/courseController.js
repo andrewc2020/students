@@ -81,7 +81,7 @@ static updateCourse(req,res){
 }
  // delete a student
  static deleteCourse(req,res){
-      Course.findById(req.params.id,(err, course)=>{
+      Course.findOneAndRemove(req.params.id,(err, course)=>{
             Course.deleteOne(course,(err)=>{
                 if(err){return status(404)}
                 return CourseController.getAllCourses(req,res);
