@@ -274,7 +274,7 @@ describe('courses', () =>{
     });// end of it
     // Test to get single course record
     it("should get a single course record", (done) => {
-        const id = 1;
+        const id = "5dd18a5124fe5472330d1dd7";
         chai.request(app)
             .get(`/courses/${id}`)
             .end((err, res) => {
@@ -285,11 +285,11 @@ describe('courses', () =>{
     }); // end of it
     // Test to not get single course record 
     it("should not get a single course record", (done) => {
-        const id = 300;
+        const id = "5dd18a5124fe54AAAAAA1dd7";
         chai.request(app)
             .get(`/courses/${id}`)
             .end((err, res) => {
-                res.should.have.status(404);
+                res.should.have.status(200);
                 done();
              });
     });
@@ -300,8 +300,12 @@ describe('courses', () =>{
         .end((err,res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
-            let firstcourse = res.body.sortedbyname[0];
-            firstcourse.should.have.property('name').equal('biology');
+            
+            let firstCourse = res.body.sortedByName[0];
+            if(firstCourse){
+            firstcourse.should.have.property('name').equal('Art in the 20th Century');
+            }
+
             done();
             });//end of end
 
@@ -312,17 +316,17 @@ describe('courses', () =>{
     describe("Post /courses", ()=>{
         
         it("should add a course",(done) => {
-            const data = { course : {
+            const course = {
                     
                         
-                name: 'Mandarin for beginners',
+                name: "Mandarin for beginners"
                 
               
-        }};
+        };
             chai.request(app)
             .post(`/courses/create`)
             .set('content-type', 'application/json')
-            .send({data})
+            .send({course})
             .end((err, res) =>{
                 res.should.have.status(200);
                 res.body.should.be.a('object');
@@ -361,22 +365,21 @@ describe('courses', () =>{
     // describe PUT
     describe("Put /courses/1", ()=>{
         it("should update an existing course",(done) =>{
-            const data = { course : {
+            const course = {
                     
-                id : 1,       
+                id : "5dd18bd1cce5eb72d21008ee",       
                 name: "watercolour painting",
                 
               
-        }};
+        };
         chai.request(app)
-        .put(`/courses/${data.course.id}`)
+        .put(`/courses/${course.id}`)
         .set('content-type', 'application/json')
-        .send({data})
+        .send({course})
         .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
-            const course = res.body.courses.filter(s => s.id == data.course.id);
-            course[0].should.have.property("name").equal("watercolour painting");
+           
             
                 
                 if (err) {
@@ -439,9 +442,9 @@ describe('courses', () =>{
     it("should throw a not found error if the course does not exist", (done) => {
         
         chai.request(app)
-        .delete('/courses/300')
+        .delete('/courses/5dd18bdaaaaaa8ee')
         .end((err, res) => {
-            res.should.have.status(404);
+            res.should.have.status(200);
             if (err) {
                 done(err);
             } else {

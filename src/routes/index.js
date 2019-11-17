@@ -29,7 +29,7 @@ routes.delete('/students/:id', auth, StudentController.deleteStudent);
 routes.get('/courses/', CourseController.getAllCourses);
 routes.get('/courses/:id', CourseController.getSingleCourse);
 routes.get('/courses/sortby/name',CourseController.getCoursesByName);
-routes.post('/courses/create/', CourseController.addCourse);
+routes.post('/courses/create/',[check('course.name').isLength({min:2})], CourseController.addCourse);
 routes.put('/courses/:id', CourseController.updateCourse);
 routes.delete('/courses/:id', CourseController.deleteCourse);
 
