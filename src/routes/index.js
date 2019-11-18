@@ -13,6 +13,7 @@ import auth from '../middleware/auth';
 const routes = Router();
 routes.post('/user/',[check('email').isEmail(),check('userName').isLength({min:2})],userController.addUser);
 routes.get('/user/current', auth, userController.getCurrent);
+routes.get('/users',auth,userController.getAllUsers);
 routes.get('/kittens/', KittenController.getAllKittens);
 routes.get('/kittens/sortby/name', KittenController.getAllKittensSortedByName);
 routes.get('/kittens/:id',KittenController.getSingleKitten);

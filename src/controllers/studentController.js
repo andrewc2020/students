@@ -188,6 +188,7 @@ static updateStudent(req,res){
                 let saltRounds=10;
     
            await bcrypt.hash(req.body.student.password, saltRounds, function(err, hash) {
+            
          
            let student = new Student({
              userName: req.body.student.userName,
@@ -196,10 +197,19 @@ static updateStudent(req,res){
              dob: req.body.student.dob
            });
 
+           
+
      
            student.save((err,result)=>{
-            if(err){return res.status(422).json({err, message:"save failed"})}
-            return res.status(200).json({result,message:"success"})
+            const token = student.generateAuthToken();
+            res.header("x-auth-token", token).send({
+              _id: result._id,
+              __t: result.__t,
+              userName: result.userName,
+              email: result.email
+            });
+            
+            
              })
             });// end of bcrypt
      
