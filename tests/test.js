@@ -7,6 +7,7 @@ import Teacher from '../src/models/teacher';
 import { AssertionError } from 'assert';
 import assert from 'assert';
 import bcrypt from 'bcrypt';
+import User from '../src/models/user';
 dotenv.config();
 let token=process.env.ACCESS_TOKEN;
 
@@ -638,10 +639,71 @@ describe('Teacher',()=>{
                 // Store hash in your password DB.
                 assert.notEqual(hash,myPlaintextPassword)
                 console.log("encrypted password {0}",hash)
+               
+               
                 done();
               });
 
         })
-    })
-})
 
+        it('should save encrypted password',(done)=>{
+            let myPlaintextPassword="fljsafjlasf";
+            let saltRounds=10;
+
+            bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+                // Store hash in your password DB.
+                assert.notEqual(hash,myPlaintextPassword)
+                console.log("encrypted password {0}",hash)
+                let myTeacher = new Teacher({
+                    dob: "2008-08-01T23:00:00.000+00:00",
+                    userName: "Maurice Landy",
+                    email: "maurice@service.com",
+                    password: hash
+    
+    
+                })
+                myTeacher.save((err,result)=>{
+                    console.log(result);
+                    done();
+
+                })
+               
+               
+                done();
+              }); //end of it
+
+              it('should post student with encrypted password',(done)=>{
+                let myPlaintextPassword="fljsafjlasf";
+                let saltRounds=10;
+    
+                bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+
+                const student = {
+                    userName: "Jane Newby",
+                    email: "janeN@hampton.com",
+                    password: hash,
+                    dob: "1993-08-01T23:00:00.000+00:00"
+                };
+    
+                chai.request(app)
+                .post('/students/create/')
+                .set({'x-access-token':token})
+                .send({student})
+                .end((err,res) =>{
+                    res.should.have.status(200);
+                    done();
+                    
+                    
+    
+    
+    
+                });
+            });
+
+              })
+
+
+              
+    })// end of describe inheritance
+})// end of describe 
+})

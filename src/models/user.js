@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 import jwt from 'jsonwebtoken';
 import Joi from '@hapi/joi';
+import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
   userName: {
@@ -21,8 +22,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 3,
-    maxlength: 255
+    minlength: 3
   },
   //give different access rights if admin or not 
   isAdmin: Boolean
@@ -55,8 +55,16 @@ userSchema.statics.findByLogin = async function (login) {
   return user;
 };
 
+userSchema.methods.encrypt = async function(to_be_encrypted){
+   await bcrypt.hash(to_be_encrypted,10,(err,encrypted)=>{
+     return encrypted;
+
+   })
+}
+
 const User = mongoose.model('User', userSchema);
 exports.validate = validateUser;
+
 
 
 export default User;

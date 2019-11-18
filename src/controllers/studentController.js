@@ -183,18 +183,26 @@ static updateStudent(req,res){
            //find an existing user
            let user = await User.findOne({ email: req.body.student.email });
            if (user) return res.status(400).send("User already registered.");
+
+           
+                let saltRounds=10;
+    
+           await bcrypt.hash(req.body.student.password, saltRounds, function(err, hash) {
          
            let student = new Student({
              userName: req.body.student.userName,
-             password: req.body.student.password,
+             password: hash,
              email: req.body.student.email,
              dob: req.body.student.dob
            });
-          
-          await student.save((err,result)=>{
-                if(err){return res.status(422).json({err, message:"save failed"})}
-                return res.status(200).json({result,message:"success"})
-          })
+
+     
+           student.save((err,result)=>{
+            if(err){return res.status(422).json({err, message:"save failed"})}
+            return res.status(200).json({result,message:"success"})
+             })
+            });// end of bcrypt
+     
            
            
          
