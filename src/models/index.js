@@ -5,12 +5,13 @@ import User from './user';
 import Course from './course';
 
 import Kitten from './kitten';
+import Teacher from './teacher';
 
 dotenv.config();
 const connectDb = () => {
     return mongoose.connect(process.env.DATABASE_URL, { dbName : 'test', useUnifiedTopology: true, useNewUrlParser: true});
   };
-  const models = {Kitten, Student, User, Course};
+  const models = {Kitten, Student, Teacher, User, Course};
 
   
  export {models};

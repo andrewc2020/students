@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 import jwt from 'jsonwebtoken';
 import Joi from '@hapi/joi';
 
@@ -56,5 +57,6 @@ userSchema.statics.findByLogin = async function (login) {
 
 const User = mongoose.model('User', userSchema);
 exports.validate = validateUser;
+
 
 export default User;

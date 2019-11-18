@@ -3,6 +3,10 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/server';
 import dotenv from 'dotenv';
+import Teacher from '../src/models/teacher';
+import { AssertionError } from 'assert';
+import assert from 'assert';
+import bcrypt from 'bcrypt';
 dotenv.config();
 let token=process.env.ACCESS_TOKEN;
 
@@ -11,6 +15,33 @@ let token=process.env.ACCESS_TOKEN;
 chai.use(chaiHttp);
 chai.should();
 describe("Students", () => {
+    describe("POST students/create",()=>{
+        it("should add a student", (done)=>{
+           
+            const student = {
+                userName: "Jane Eyre",
+                email: "janeE@halifax.com",
+                password: "sdfjladfjasf",
+                dob: "1993-08-01T23:00:00.000+00:00"
+            };
+
+            chai.request(app)
+            .post('/students/create/')
+            .set({'x-access-token':token})
+            .send({student})
+            .end((err,res) =>{
+                res.should.have.status(200);
+                done();
+                
+                
+
+
+
+            });
+        
+
+        });
+    })
     describe("GET /students", () => {
         // Test to get all students record
         it("should get all students record", (done) => {
@@ -65,6 +96,7 @@ describe("Students", () => {
                 });
 
          });
+       
 
           //Test to get students sorted by age
           it("should return students sorted by age asc",(done) => {
@@ -88,7 +120,11 @@ describe("Students", () => {
                  res.should.have.status(200);
                  res.body.should.be.a('object');
                  let firststudent = res.body.sortedByName[0];
-                 firststudent.should.have.property('name').equal('Arthur Clark');
+                 if(firststudent){
+                    firststudent.should.have.property('userName').equal('Jane Eyre');
+
+                 }
+                 
                  
                  
                  done();
@@ -107,32 +143,12 @@ describe("Students", () => {
 
     // POST 
     describe("Post /students", ()=>{
-        it("should add a student", (done)=>{
-           
-            const student = {
-                name: 'Jane Eyre',
-                dob: '2008-08-01T23:00:00.000+00:00'
-            };
-
-            chai.request(app)
-            .post('/students/create/')
-            .set({'x-access-token':token})
-            .send({student})
-            .end((err,res) =>{
-                res.should.have.status(422);
-                done();
-                
-                
-
-
-
-            });
-        
-
-        });
+      
         it("should throw an error when the name is empty",(done)=>{
             const student =  {
-                name: '',
+                userName: '',
+                email:'janeE@halifax.com',
+                password:'sdfjladfjasf',
                 dob: '1991-08-01T23:00:00.000+00:00'
             };
 
@@ -149,7 +165,9 @@ describe("Students", () => {
         })
         it("should throw an error when the age is out of range",(done)=>{
             const student = {
-                name: 'Jane Eyre',
+                userName: 'George Davis',
+                email:'georgedavis@halifax.com',
+                password:'sdfjladfjasf',
                 dob: '2008-08-01T23:00:00.000+00:00'
             };
 
@@ -171,7 +189,9 @@ describe("Students", () => {
             const student = {
                     
                 id:    "5dc993d649a6d09151e9b278" ,
-                name: "Sean Gray",
+                userName: "Sean Gray",
+                email: "SeanGray@bt.com",
+                password: "asdjfljfa",
                 dob: "1992-08-01T23:00:00.000+00:00"
               
         };
@@ -200,7 +220,8 @@ describe("Students", () => {
             const student = {
                     
                 id : '5dcd46ef620bb5003485023854',       
-                name: "non existent student",
+                userName: "non existent student",
+                email:"nonest@nowhere.com",
                 dob: '02/14/1993'
               
         };
@@ -591,4 +612,36 @@ describe('kittens/create fail',()=>{
     })
 })//end of describe kitten create error
 }) // end of describe kittens
+describe('Teacher',()=>{
+    describe('inheritance',()=>{
+        it('should create a teacher with both user and teacher properties',(done)=>{
+            let myTeacher = new Teacher({
+                dob: "2008-08-01T23:00:00.000+00:00",
+                userName: "Maurice MichaelWhite",
+                email: "maurice@bt.com",
+                password:"ououewtouo"
+            });
+            myTeacher.save((err,result)=>{
+               
+                console.log(result);
+                done();
+                
+            })
+            
+            assert.equal(myTeacher.email,'maurice@bt.com');
+        })
+        it('should encrypt',(done)=>{
+            let myPlaintextPassword="fljsafjlasf";
+            let saltRounds=10;
+
+            bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+                // Store hash in your password DB.
+                assert.notEqual(hash,myPlaintextPassword)
+                console.log("encrypted password {0}",hash)
+                done();
+              });
+
+        })
+    })
+})
 

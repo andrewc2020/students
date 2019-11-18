@@ -2,7 +2,7 @@
 import {validationResult} from 'express-validator';
 import User from '../models/user';
 import validate from '../models/user';
-import bcrypt from 'bcrypt-nodejs';
+
 
 class userController{
     constructor(){
@@ -57,7 +57,7 @@ class userController{
           password: req.body.password,
           email: req.body.email
         });
-        user.password = await bcrypt.hash(user.password, 10);
+       // user.password = await bcrypt.hash(user.password, 10);
         await user.save();
       
         const token = user.generateAuthToken();

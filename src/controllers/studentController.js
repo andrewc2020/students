@@ -1,9 +1,11 @@
 import {validationResult} from 'express-validator/check';
 import _ from 'lodash';
 import _calculateAge from '../utils/age';
+import bcrypt from 'bcrypt';
 import Student from '../models/student';
+import User from '../models/user';
 
-import Joi_validate from '@hapi/joi';
+
 
 
 
@@ -117,7 +119,7 @@ static updateStudent(req,res){
       // if(!student){
             
                   Student.updateOne({_id:req.params.id}, async (err, student)=>{
-                        student.name = req.body.student.name;
+                        student.userName = req.body.student.userName;
                         student.dob = req.body.student.dob
                         return await res.status(200).json({
                               student,
@@ -151,16 +153,10 @@ static updateStudent(req,res){
                  
                   
                   
-                  const errors = validationResult(req);
-                  if (!errors.isEmpty()) {
-                  return res.status(422).json({ errors: errors.array() });
-                  }
+                 
                   
                   
-                  if(_calculateAge(new Date(req.body.student.dob)) < 18){
-                        
-                        return res.status(422).json({ errors: errors.array() });
-                  }
+                 
             
             
             var my_param = req.body;// info to create new student
@@ -170,16 +166,48 @@ static updateStudent(req,res){
         return;
     }
 
-            
-                  let s = new Student({
-                        name: req.body.student.name,
-                        dob: req.body.student.dob
-                  });
-                  await s.save((err,result)=>{
-                        if(err){return res.status(422).json({message:err})}
-                        return res.status(200).json({result, message:"success"});
+           // Finds the validation errors in this request and wraps them in an object with handy functions
+           const errors = validationResult(req);
+           if (!errors.isEmpty()) {
+           return res.status(422).json({ errors: errors.array() });
+           }
 
-                  });
+           if(_calculateAge(new Date(req.body.student.dob)) < 18){
+                        
+            return res.status(422).json({ errors: errors.array() });
+      }
+   
+      //      const { error } = User.validate(req.body.student);
+      //      if (error) return res.status(400).send(error.details[0].message);
+         
+           //find an existing user
+           let user = await User.findOne({ email: req.body.student.email });
+           if (user) return res.status(400).send("User already registered.");
+         
+           let student = new Student({
+             userName: req.body.student.userName,
+             password: req.body.student.password,
+             email: req.body.student.email,
+             dob: req.body.student.dob
+           });
+          
+          await student.save((err,result)=>{
+                if(err){return res.status(422).json({err, message:"save failed"})}
+                return res.status(200).json({result,message:"success"})
+          })
+           
+           
+         
+          
+           
+           
+               
+        
+
+            
+                  
+
+                  
                  
             
     
