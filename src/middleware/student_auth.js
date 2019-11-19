@@ -13,9 +13,9 @@ module.exports = function(req, res, next) {
     const decoded = jwt.verify(token, process.env.my_private_key);
     req.user = decoded;
     User.findById(req.user._id,(err,student)=>{
-        console.log(err);
-        console.log("student from token {0}",student)
-        if(!student || student.__t!=="Student" ){
+        let arr =['Student','Teacher']
+        
+        if(!student || !arr.includes(student.__t)){
             return res.status(401).send("Access denied")
         }
         req.student = student;

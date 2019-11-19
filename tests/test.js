@@ -12,6 +12,7 @@ dotenv.config();
 let token=process.env.ACCESS_TOKEN;
 let student_token = "";
 let bad_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGQ0MTFiY2VkZmY0YmYxYTllMjZmYjciLCJpYXQiOjE1NzQxNzkyNjB9.gGHzEXQ-gPfkrJmjrMJPlzMYaaxzpsrZRo4RkhnxjrE";
+
 before(async()=>{
     // Configure chai
 chai.use(chaiHttp);
