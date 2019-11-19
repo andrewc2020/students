@@ -10,11 +10,21 @@ import bcrypt from 'bcrypt';
 import User from '../src/models/user';
 dotenv.config();
 let token=process.env.ACCESS_TOKEN;
-
-
-// Configure chai
+let student_token = "";
+let bad_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGQ0MTFiY2VkZmY0YmYxYTllMjZmYjciLCJpYXQiOjE1NzQxNzkyNjB9.gGHzEXQ-gPfkrJmjrMJPlzMYaaxzpsrZRo4RkhnxjrE";
+before(async()=>{
+    // Configure chai
 chai.use(chaiHttp);
 chai.should();
+
+
+
+
+    
+})
+
+
+
 describe("Students", () => {
     describe("POST students/create",()=>{
         it("should add a student", (done)=>{
@@ -32,6 +42,9 @@ describe("Students", () => {
             .send({student})
             .end((err,res) =>{
                 res.should.have.status(200);
+                res.should.have.header('x-auth-token');
+                student_token=res.header['x-auth-token'];
+                console.log("x-auth-token {}",student_token)
                 done();
                 
                 
@@ -46,9 +59,10 @@ describe("Students", () => {
     describe("GET /students", () => {
         // Test to get all students record
         it("should get all students record", (done) => {
+           
              chai.request(app)
                 .get('/students')
-                .set({'x-access-token':token})
+                .set({'x-access-token':student_token})
                 .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
@@ -613,6 +627,22 @@ describe('kittens/create fail',()=>{
     })
 })//end of describe kitten create error
 }) // end of describe kittens
+describe('Access',()=>{
+    describe('student security',()=>{
+        it('should deny access to students to ordinary users',(done)=>{
+            chai.request(app)
+            .get('/students')
+            .set({'x-access-token':bad_token})
+            .end((err,res) =>{
+                res.should.have.status(401);
+                done();
+            }); // end to end
+
+          })
+
+      });
+
+  })
 describe('Teacher',()=>{
     describe('inheritance',()=>{
         it('should create a teacher with both user and teacher properties',(done)=>{
@@ -671,6 +701,9 @@ describe('Teacher',()=>{
                
                 done();
               }); //end of it
+              
+             
+              
 
               it('should post student with encrypted password',(done)=>{
                 let myPlaintextPassword="fljsafjlasf";

@@ -5,6 +5,7 @@ import KittenController from '../controllers/kittenController';
 import userController from '../controllers/userController';
 import {check} from 'express-validator/check';
 import auth from '../middleware/auth';
+import student_auth from '../middleware/student_auth';
 
 
 
@@ -20,7 +21,7 @@ routes.get('/kittens/sortby/name', KittenController.getAllKittensSortedByName);
 routes.get('/kittens/:id',KittenController.getSingleKitten);
 routes.post('/kittens/create/',[check('kitten.name').isLength({min:2})],KittenController.addKitten);
 routes.delete('/kittens/delete/:id',KittenController.deleteKitten);
-routes.get('/students/',auth, StudentController.getAllStudents);
+routes.get('/students/',student_auth, StudentController.getAllStudents);
 routes.get('/students/:id', auth, StudentController.getSingleStudent);
 routes.get('/students/sortby/age', auth, StudentController.getStudentsByAge);
 routes.get('/students/sortby/age/asc', auth , StudentController.getStudentsByAgeAsc)
