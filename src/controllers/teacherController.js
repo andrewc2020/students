@@ -2,7 +2,7 @@ import {validationResult} from 'express-validator/check';
 import _ from 'lodash';
 import _calculateAge from '../utils/age';
 import bcrypt from 'bcrypt';
-import Teacher from '../models/Teacher';
+import Teacher from '../models/teacher';
 import User from '../models/user';
 
 

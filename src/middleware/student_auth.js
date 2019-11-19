@@ -18,7 +18,7 @@ module.exports = function(req, res, next) {
         if(!student || !arr.includes(student.__t)){
             return res.status(401).send("Access denied")
         }
-        req.student = student;
+       
     })
     
     console.log("user from token{0}",req.user);

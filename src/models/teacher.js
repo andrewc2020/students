@@ -5,13 +5,6 @@ import User from './user';
 
 
 
-
-
-
-
-
-
-
 const Teacher = User.discriminator('Teacher',new mongoose.Schema({
     dob:{
         type: String,
