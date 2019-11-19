@@ -724,3 +724,17 @@ describe('Teacher',()=>{
     })
 })// end of describe 
 })
+
+after(async () => {  
+    chai.request(app)
+    .delete('/users')
+    .set({'x-access-token':token})
+    .end((err,res) =>{
+        
+        
+        
+
+
+
+    });
+  })
