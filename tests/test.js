@@ -664,7 +664,7 @@ describe('Teacher',()=>{
                 })
                 myTeacher.save((err,result)=>{
                     console.log(result);
-                    done();
+                    
 
                 })
                
@@ -700,10 +700,27 @@ describe('Teacher',()=>{
                 });
             });
 
-              })
+        })
 
 
               
     })// end of describe inheritance
+    describe('clean up',()=>{
+        it('should delete all users',(done)=>{
+            chai.request(app)
+                .delete('/users')
+                .set({'x-access-token':token})
+                .end((err,res) =>{
+                    res.should.have.status(200);
+                    done();
+                    
+                    
+    
+    
+    
+                });
+
+        })
+    })
 })// end of describe 
 })

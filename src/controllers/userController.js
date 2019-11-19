@@ -79,6 +79,12 @@ class userController{
             return res.status(200);
         })
     }
+    static deleteAllUsers(req,res){
+        User.deleteMany({},(err,result)=>{
+            if(err){ return res.status(500);}
+            return res.status(200).json({result, message:"all the users"})
+        })
+    }
 }
 
 export default userController;
