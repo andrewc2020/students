@@ -11,7 +11,7 @@ import User from '../src/models/user';
 dotenv.config();
 let token=process.env.ACCESS_TOKEN;
 let student_token = "";
-let bad_token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGQzMTRlMTE4NmExMmM4MmVjYjFiYWQiLCJpYXQiOjE1NzQxMTQ1Mjl9.PAdBdHxK3iPxzwZP8rlRFtusMMvPMdS63j4BzFdfOnI";
+let user_token='';
 before(async()=>{
     // Configure chai
 chai.use(chaiHttp);
@@ -23,7 +23,35 @@ chai.should();
     
 })
 
+describe("Users",()=>{
+    describe('User create',()=>{
+        it('POST User Should create a user via the API and receive a valid token',(done)=>{
+            const user = {
+                userName: "Jane Sales",
+                email: "janeS@halifax.com",
+                password: "sdfjladfjasf"
+            };
 
+            chai.request(app)
+            .post('/user')
+            .send(user)
+            .end((err,res) =>{
+                res.should.have.status(200);
+                res.should.have.header('x-auth-token');
+                console.log(res.header['x-auth-token']);
+                user_token=res.header['x-auth-token'];
+                console.log("x-auth-token {0}",user_token)
+                done();
+                
+                
+
+
+
+            });
+        
+        })
+    })
+})
 
 describe("Students", () => {
     describe("POST students/create",()=>{
@@ -62,7 +90,7 @@ describe("Students", () => {
            
              chai.request(app)
                 .get('/students')
-                .set({'x-access-token':student_token})
+                .set({'x-access-token':token})
                 .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
@@ -627,22 +655,7 @@ describe('kittens/create fail',()=>{
     })
 })//end of describe kitten create error
 }) // end of describe kittens
-describe('Access',()=>{
-    describe('student security',()=>{
-        it('should deny access to students to ordinary users',(done)=>{
-            chai.request(app)
-            .get('/students')
-            .set({'x-access-token':bad_token})
-            .end((err,res) =>{
-                res.should.have.status(401);
-                done();
-            }); // end to end
 
-          })
-
-      });
-
-  })
 describe('Teacher',()=>{
     describe('inheritance',()=>{
         it('should create a teacher with both user and teacher properties',(done)=>{

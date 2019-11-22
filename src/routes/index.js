@@ -23,7 +23,7 @@ routes.get('/kittens/:id',KittenController.getSingleKitten);
 routes.post('/kittens/create/',[check('kitten.name').isLength({min:2})],KittenController.addKitten);
 routes.delete('/kittens/delete/:id',KittenController.deleteKitten);
 //students
-routes.get('/students/',student_auth, StudentController.getAllStudents);
+routes.get('/students/',[auth, student_auth], StudentController.getAllStudents);
 routes.get('/students/:id', auth, StudentController.getSingleStudent);
 routes.get('/students/sortby/age', auth, StudentController.getStudentsByAge);
 routes.get('/students/sortby/age/asc', auth , StudentController.getStudentsByAgeAsc)

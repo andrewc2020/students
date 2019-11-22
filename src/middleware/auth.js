@@ -11,6 +11,8 @@ module.exports = function(req, res, next) {
     //if can verify the token, set req.user and pass to next middleware
     const decoded = jwt.verify(token, process.env.my_private_key);
     req.user = decoded;
+    
+    console.log("decoded user {0}",req.user);
     next();
   } catch (ex) {
     //if invalid token

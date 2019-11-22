@@ -33,7 +33,7 @@ class StudentController {
     static getAllStudents(req, res) {
 
       
-
+      
       
         Student.find(async (err, students)=>{
              return await res.status(200).json({
