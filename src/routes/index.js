@@ -6,7 +6,7 @@ import KittenController from '../controllers/kittenController';
 import userController from '../controllers/userController';
 import {check} from 'express-validator/check';
 import auth from '../middleware/auth';
-import student_auth from '../middleware/student_auth';
+import non_admin_auth from '../middleware/non_admin_auth';
 
 
 
@@ -23,8 +23,8 @@ routes.get('/kittens/:id',KittenController.getSingleKitten);
 routes.post('/kittens/create/',[check('kitten.name').isLength({min:2})],KittenController.addKitten);
 routes.delete('/kittens/delete/:id',KittenController.deleteKitten);
 //students
-routes.get('/students/',[auth, student_auth], StudentController.getAllStudents);
-routes.get('/students/:id', auth, StudentController.getSingleStudent);
+routes.get('/students/',auth, StudentController.getAllStudents);
+routes.get('/students/:id', non_admin_auth, StudentController.getSingleStudent);
 routes.get('/students/sortby/age', auth, StudentController.getStudentsByAge);
 routes.get('/students/sortby/age/asc', auth , StudentController.getStudentsByAgeAsc)
 routes.get('/students/sortby/name',auth, StudentController.getStudentsByName);
@@ -38,7 +38,7 @@ routes.get('/teachers/sortby/age', auth, TeacherController.getTeachersByAge);
 routes.get('/teachers/sortby/age/asc', auth , TeacherController.getTeachersByAgeAsc)
 routes.get('/teachers/sortby/name',auth, TeacherController.getTeachersByName);
 routes.post('/teachers/create/',[auth, check('teacher.userName').isLength({min:2})] , TeacherController.addTeacher);
-routes.put('/teachers/:id', auth, TeacherController.updateTeacher);
+routes.put('/teachers/:id', non_admin_auth, TeacherController.updateTeacher);
 routes.delete('/teachers/:id', auth, TeacherController.deleteTeacher);
 
 //courses

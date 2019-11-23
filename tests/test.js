@@ -12,6 +12,8 @@ dotenv.config();
 let token=process.env.ACCESS_TOKEN;
 let student_token = "";
 let user_token='';
+let student_id ="";
+
 before(async()=>{
     // Configure chai
 chai.use(chaiHttp);
@@ -75,6 +77,8 @@ describe("Students", () => {
                 res.should.have.header('x-auth-token');
                 student_token=res.header['x-auth-token'];
                 console.log("x-auth-token {}",student_token)
+                student_id=res.body._id
+                console.log("student id{0}",student_id);
                 done();
                 
                 
@@ -102,6 +106,22 @@ describe("Students", () => {
     
                 }) //end of end
             }) //end of it
+            it('should allow access to the students own record',(done)=>{
+                chai.request(app)
+                .get(`/students/${student_id}`)
+                .set({'x-access-token':student_token})
+                .end((err,res) =>{
+                    res.should.have.status(200);
+                   
+                    done();
+                    
+                    
+    
+    
+    
+                }) //end of end
+
+            })
         })//end of describe
     })
     describe("GET /students", () => {
@@ -120,9 +140,9 @@ describe("Students", () => {
          });
         // Test to get single student record
         it("should get a single student record", (done) => {
-             const id = "5dce74b2189244385fa2b51a";
+             
              chai.request(app)
-             .get(`/students/${id}`)
+             .get(`/students/${student_id}`)
              .set({'x-access-token':token})
              .end((err, res) => {
                      res.should.have.status(200);
@@ -132,17 +152,7 @@ describe("Students", () => {
          });
          
         // Test to not get single student record 
-        it("should not get a single student record", (done) => {
-             const id = '5dcd791c78d3c4276632004a';
-             chai.request(app)
-             .get(`/students/${id}`)
-             .set({'x-access-token' :token})
-             .end((err, res) => {
-                     res.should.have.status(200);
-                     
-                     done();
-                  });
-         });
+        
 
          //Test to get students sorted by age
          it("should return students sorted by age desc",(done) => {
