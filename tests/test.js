@@ -41,7 +41,7 @@ describe("Users",()=>{
             .end((err,res) =>{
                 res.should.have.status(200);
                 res.should.have.header('x-auth-token');
-                console.log(res.header['x-auth-token']);
+               
                 user_token=res.header['x-auth-token'];
               
                 done();
@@ -76,7 +76,7 @@ describe("Students", () => {
                 res.should.have.status(200);
                 res.should.have.header('x-auth-token');
                 student_token=res.header['x-auth-token'];
-                console.log("x-auth-token {}",student_token)
+               
                 student_id=res.body._id
                 console.log("student id{0}",student_id);
                 done();
@@ -134,7 +134,7 @@ describe("Students", () => {
                 .end((err, res) => {
                      res.should.have.status(200);
                      res.body.should.be.a('object');
-                     console.log(res.body);
+                  
                      done();
                   });
          });
@@ -276,7 +276,7 @@ describe("Students", () => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             
-            console.log(res.body);
+           
                 
                 if (err) {
                     done(err);
@@ -324,7 +324,7 @@ describe("Students", () => {
             .end((err,res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
-                console.log(res.body);
+              
                 if (err) {
                     done(err);
                 } else {
@@ -424,7 +424,7 @@ describe('courses', () =>{
             .end((err, res) =>{
                 res.should.have.status(200);
                 res.body.should.be.a('object');
-                console.log(res.body);
+              
                 
                 if (err) {
                     done(err);
@@ -522,7 +522,7 @@ describe('courses', () =>{
             .end((err,res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
-                console.log(res.body);
+              
                 if (err) {
                     done(err);
                 } else {
@@ -564,7 +564,7 @@ describe('kittens',()=>{
         .end((err,res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
-            console.log(res.body);
+          
             if (err) {
                 done(err);
             } else {
@@ -583,7 +583,7 @@ describe('get one kitten',()=>{
         .end((err,res) => {
             res.should.have.status(404);
             res.body.should.be.a('object');
-            console.log(res.body);
+        
             if (err) {
                 done(err);
             } else {
@@ -641,7 +641,7 @@ describe('kittens/create success',()=>{
         .end((err, res) =>{
             res.should.have.status(200);
             res.body.should.be.a('object');
-            console.log(res.body);
+           
             
             if (err) {
                 done(err);
@@ -671,7 +671,7 @@ describe('kittens/create fail',()=>{
         .end((err, res) =>{
             res.should.have.status(422);
             res.body.should.be.a('object');
-            console.log(res.body);
+          
             
             if (err) {
                 done(err);
@@ -697,7 +697,7 @@ describe('Teacher',()=>{
             });
             myTeacher.save((err,result)=>{
                
-                console.log(result);
+              
                 done();
                 
             })
@@ -711,7 +711,7 @@ describe('Teacher',()=>{
             bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
                 // Store hash in your password DB.
                 assert.notEqual(hash,myPlaintextPassword)
-                console.log("encrypted password {0}",hash)
+              
                
                
                 done();
@@ -726,7 +726,7 @@ describe('Teacher',()=>{
             bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
                 // Store hash in your password DB.
                 assert.notEqual(hash,myPlaintextPassword)
-                console.log("encrypted password {0}",hash)
+              
                 let myTeacher = new Teacher({
                     dob: "2008-08-01T23:00:00.000+00:00",
                     userName: "Maurice Landy",
@@ -736,7 +736,7 @@ describe('Teacher',()=>{
     
                 })
                 myTeacher.save((err,result)=>{
-                    console.log(result);
+                   
                     
 
                 })
