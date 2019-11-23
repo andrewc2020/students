@@ -55,7 +55,8 @@ class userController{
         user = new User({
           userName: req.body.userName,
           password: req.body.password,
-          email: req.body.email
+          email: req.body.email,
+          isAdmin: req.body.isAdmin,
         });
        // user.password = await bcrypt.hash(user.password, 10);
         await user.save();
@@ -64,7 +65,8 @@ class userController{
         res.header("x-auth-token", token).send({
           _id: user._id,
           userName: user.userName,
-          email: user.email
+          email: user.email,
+          isAdmin: user.isAdmin
         });
         
         

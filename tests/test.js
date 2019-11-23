@@ -29,6 +29,7 @@ describe("Users",()=>{
             const user = {
                 userName: "Jane Sales",
                 email: "janeS@halifax.com",
+                isAdmin: true,
                 password: "sdfjladfjasf"
             };
 
@@ -51,6 +52,7 @@ describe("Users",()=>{
         
         })
     })
+  
 })
 
 describe("Students", () => {
@@ -83,6 +85,24 @@ describe("Students", () => {
         
 
         });
+        describe('deny access',()=>{
+            it('should deny access to the student just created as she is not an admin',(done)=>{
+    
+                chai.request(app)
+                .post('/students/create')
+                .set({'x-access-token':student_token})
+                .end((err,res) =>{
+                    res.should.have.status(401);
+                   
+                    done();
+                    
+                    
+    
+    
+    
+                }) //end of end
+            }) //end of it
+        })//end of describe
     })
     describe("GET /students", () => {
         // Test to get all students record
@@ -367,7 +387,7 @@ describe('courses', () =>{
             
             let firstCourse = res.body.sortedByName[0];
             if(firstCourse){
-            firstCourse.should.have.property('name').equal('Mandarin for beginners');
+            firstCourse.should.have.property('name').equal('Art in the 20th Century');
             }
 
             done();

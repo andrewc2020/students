@@ -15,10 +15,13 @@ module.exports = function(req, res, next) {
         console.log("user from header{0}",result);
 
         
+        // Students and Teachers may view their own record
         
         if(result && result.__t && arr.includes(result.__t)){
           console.log("{0} is a student or Teacher", result);
-          req.student = result;
+          if(!result.isAdmin && result._id !== req.params.id){
+            return res.status(401).send("not authorised");
+          }
         }
        
        

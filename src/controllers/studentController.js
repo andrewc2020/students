@@ -193,6 +193,7 @@ static updateStudent(req,res){
            let student = new Student({
              userName: req.body.student.userName,
              password: hash,
+             isAdmin: false,
              email: req.body.student.email,
              dob: req.body.student.dob
            });
@@ -206,7 +207,8 @@ static updateStudent(req,res){
               _id: result._id,
               __t: result.__t,
               userName: result.userName,
-              email: result.email
+              email: result.email,
+              dob: result.dob
             });
             
             

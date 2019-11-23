@@ -13,6 +13,9 @@ module.exports = function(req, res, next) {
     req.user = decoded;
     
     console.log("decoded user {0}",req.user);
+   if(!req.user.isAdmin){
+     return res.status(401).send("Not authorised")
+   }
     next();
   } catch (ex) {
     //if invalid token

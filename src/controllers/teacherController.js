@@ -193,6 +193,7 @@ static updateTeacher(req,res){
            let Teacher = new Teacher({
              userName: req.body.Teacher.userName,
              password: hash,
+             isAdmin: false,
              email: req.body.Teacher.email,
              dob: req.body.Teacher.dob
            });
@@ -206,7 +207,8 @@ static updateTeacher(req,res){
               _id: result._id,
               __t: result.__t,
               userName: result.userName,
-              email: result.email
+              email: result.email,
+              dob: result.dob
             });
             
             

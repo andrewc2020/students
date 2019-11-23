@@ -32,7 +32,14 @@ routes.post('/students/create/',[auth, check('student.userName').isLength({min:2
 routes.put('/students/:id', auth, StudentController.updateStudent);
 routes.delete('/students/:id', auth, StudentController.deleteStudent);
 //teachers
-routes.get('/teachers/',student_auth,TeacherController.getAllTeachers);
+routes.get('/teachers/',auth,TeacherController.getAllTeachers);
+routes.get('/teachers/:id', auth, TeacherController.getSingleTeacher);
+routes.get('/teachers/sortby/age', auth, TeacherController.getTeachersByAge);
+routes.get('/teachers/sortby/age/asc', auth , TeacherController.getTeachersByAgeAsc)
+routes.get('/teachers/sortby/name',auth, TeacherController.getTeachersByName);
+routes.post('/teachers/create/',[auth, check('teacher.userName').isLength({min:2})] , TeacherController.addTeacher);
+routes.put('/teachers/:id', auth, TeacherController.updateTeacher);
+routes.delete('/teachers/:id', auth, TeacherController.deleteTeacher);
 
 //courses
 routes.get('/courses/', CourseController.getAllCourses);
