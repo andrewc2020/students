@@ -43,7 +43,7 @@ describe("Users",()=>{
                 res.should.have.header('x-auth-token');
                 console.log(res.header['x-auth-token']);
                 user_token=res.header['x-auth-token'];
-                console.log("x-auth-token {0}",user_token)
+              
                 done();
                 
                 
