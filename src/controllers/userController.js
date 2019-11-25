@@ -1,6 +1,7 @@
 
 import {validationResult} from 'express-validator';
 import User from '../models/user';
+import bcrypt from 'bcrypt';
 import validate from '../models/user';
 
 
@@ -18,6 +19,39 @@ class userController{
         })
     }
 
+    static async authenticate(req,res){
+        //... fetch user from a db etc.
+        let match = true;
+        let userWithoutPassword = null;
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+        }
+        
+        const user = await User.findOne({userName: req.body.userName});
+        if(user && user._id){
+             userWithoutPassword = await User.findById(user._id).select("-password");
+     
+            match = await bcrypt.compare(req.body.password, user.password);
+            if(match) {
+                //login
+                const token = user.generateAuthToken();
+                res.header("x-auth-token", token);
+                return res.status(200).json({userWithoutPassword});
+            }
+            
+
+        }
+
+        return res.status(401).json("not found");
+        
+       
+     
+        
+        
+    }
+    
     static async getCurrent(req,res){
 
         const user = await User.findById(req.user._id).select("-password");
@@ -58,7 +92,7 @@ class userController{
           email: req.body.email,
           isAdmin: req.body.isAdmin,
         });
-       // user.password = await bcrypt.hash(user.password, 10);
+       user.password = await bcrypt.hash(user.password, 10);
         await user.save();
       
         const token = user.generateAuthToken();

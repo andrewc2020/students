@@ -54,6 +54,61 @@ describe("Users",()=>{
         
         })
     })
+
+    describe('User authenticate',()=>{
+        it('POST Should authenticate the user just created ',(done)=>{
+            const user = {
+                userName: "Jane Sales",
+               
+                
+                password: "sdfjladfjasf"
+            };
+
+            chai.request(app)
+            .post('/user/authenticate')
+            .send(user)
+            .end((err,res) =>{
+                res.should.have.status(200);
+                res.should.have.header('x-auth-token');
+               
+               
+              
+                done();
+                
+                
+
+
+
+            });
+
+        })
+        it('POST Should not authenticate a non user ',(done)=>{
+            const user = {
+                userName: "John Salesman",
+               
+                
+                password: "irpiepriq"
+            };
+
+            chai.request(app)
+            .post('/user/authenticate')
+            .send(user)
+            .end((err,res) =>{
+                res.should.have.status(401);
+                res.should.not.have.header('x-auth-token');
+               
+               
+              
+                done();
+                
+                
+
+
+
+            });
+
+        })
+    })
   
 })
 
