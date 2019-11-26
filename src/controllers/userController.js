@@ -29,16 +29,16 @@ class userController{
         return res.status(422).json({ errors: errors.array() });
         }
         
-        const user = await User.findOne({userName: req.body.userName});
-        if(user && user._id){
-             userWithoutPassword = await User.findById(user._id).select("-password");
+        const user_to_find = await User.findOne({userName: req.body.userName});
+        if(user_to_find && user_to_find._id){
+             const user = await User.findById(user_to_find._id).select("-password");
      
-            match = await bcrypt.compare(req.body.password, user.password);
+            match = await bcrypt.compare(req.body.password, user_to_find.password);
             if(match) {
                 //login
                 const token = user.generateAuthToken();
                 res.header("x-auth-token", token);
-                return res.status(200).json({userWithoutPassword});
+                return res.status(200).json({user});
             }
             
 
