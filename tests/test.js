@@ -65,7 +65,7 @@ describe("Users",()=>{
             };
 
             chai.request(app)
-            .post('/user/authenticate')
+            .post('/users/authenticate')
             .send(user)
             .end((err,res) =>{
                 res.should.have.status(200);
@@ -91,7 +91,7 @@ describe("Users",()=>{
             };
 
             chai.request(app)
-            .post('/user/authenticate')
+            .post('/users/authenticate')
             .send(user)
             .end((err,res) =>{
                 res.should.have.status(401);
