@@ -7,13 +7,17 @@ import userController from '../controllers/userController';
 import {check} from 'express-validator/check';
 import auth from '../middleware/auth';
 import non_admin_auth from '../middleware/non_admin_auth';
+import {cors} from 'cors';
 
 
 
-
+const corsOptions = {
+    origin: 'https://localhost:8080'
+  }
+  
 
 const routes = Router();
-routes.post('/users/authenticate',[check('userName').isLength({min:2}),check('password').isLength({min:2})],userController.authenticate);
+routes.post('/users/authenticate',cors(corsOptions),[check('userName').isLength({min:2}),check('password').isLength({min:2})],userController.authenticate);
 routes.post('/user/',[check('email').isEmail(),check('userName').isLength({min:2})],userController.addUser);
 routes.get('/user/current', auth, userController.getCurrent);
 routes.get('/users',auth,userController.getAllUsers);
