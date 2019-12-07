@@ -11,10 +11,9 @@ class userController{
     }
     static getAllUsers(req,res){
         User.find(async (err,users)=>{
-            return await res.status(200).json({
-                users,
-                message: "all the users"
-            })
+            return await res.status(200).json(
+                users
+            )
 
         })
     }
@@ -37,8 +36,13 @@ class userController{
             if(match) {
                 //login
                 const token = user.generateAuthToken();
+                res.header("Access-Control-Expose-Headers","x-auth-token");
                 res.header("x-auth-token", token);
-                return res.status(200).json({user});
+                let currentUser = {};
+                currentUser.user = user;
+                currentUser.token = token;
+                
+                return res.status(200).json(currentUser);
             }
             
 
