@@ -14,10 +14,8 @@ module.exports = function(req, res, next) {
     const decoded = jwt.verify(token, process.env.my_private_key);
     req.user = decoded;
     
-    console.log("decoded non admin user {0}",req.user);
-  //  if(!req.user.isAdmin && req.user._id != req.params.id){
-  //    return res.status(401).send("Not authorised")
-  //  }
+    console.log("decoded user {0}",req.user);
+  
     next();
   } catch (ex) {
     //if invalid token
