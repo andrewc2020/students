@@ -48,7 +48,7 @@ class userController{
 
         }
 
-        return res.status(401).json("not found");
+        return res.status(401).json({"message":"not found"});
         
        
      
