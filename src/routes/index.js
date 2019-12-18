@@ -16,6 +16,9 @@ import non_admin_auth from '../middleware/non_admin_auth';
   
 
 const routes = Router();
+routes.get('/',(req,res)=>{
+    res.status(200).json({"usage": "/kittens"})
+})
 routes.post('/users/authenticate',[check('userName').isLength({min:2}),check('password').isLength({min:2})],userController.authenticate);
 routes.post('/user/',[check('email').isEmail(),check('userName').isLength({min:2})],userController.addUser);
 routes.get('/user/current',non_admin_auth, userController.getCurrent);
