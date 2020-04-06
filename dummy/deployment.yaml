@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: students
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: students
+  template:
+    metadata:
+      labels:
+        app: students
+    spec:
+      containers:
+        - name: students
+          image: gcr.io/mycal-255414/students
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: mongodb://mongo:27017/test
+            - name: PORT
+              value: "8000"
+
+          imagePullPolicy: IfNotPresent

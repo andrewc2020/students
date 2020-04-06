@@ -2,15 +2,26 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: fanout-ingress
+  annotations: "nginx.ingress.kubernetes.io/rewrite-target: /"
 spec:
   rules:
-  - http:
+    - http:
       paths:
+      - path: /
+        backend:
+          serviceName: ingress
+          servicePort: 80
+
       - path: /*
         backend:
           serviceName: students-frontend
           servicePort: 3000
-      - path: /*
+          
+      - path: /api
         backend:
           serviceName: students
           servicePort: 8000
+          
+    
+    
+    

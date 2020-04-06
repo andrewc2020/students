@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: students-backend
+  labels:
+    app: students
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: students
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: students
+        tier: backend
+    spec:
+     initContainers:
+      - name: init-db-ready
+        image: mongo:4
+        command: ['/bin/sh', '-c']
+        args:
+          - echo "Waiting for mongodb at node-guestbook-mongodb:27017 to go live before the BE..."; 
+          - until (mongo --host node-guestbook-mongodb:27017 >/dev/null) do echo "Waiting for connection for 2 sec."; sleep 2; done
+     containers:
+      - name: backend
+        image: gcr.io/mycal-255414/students-backend
+        ports:
+        - name: http-server
+          containerPort: 8000
+        env:
+        - name: PORT
+          value: "8000"
+        - name: GUESTBOOK_DB_ADDR
+          value: "node-guestbook-mongodb:27017"

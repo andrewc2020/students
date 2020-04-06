@@ -115,7 +115,7 @@ describe('#5 retrieve all kittens',()=>{
             console.log('connection established');
             Kitten.find((err,kittens)=>{
                 if(err){console.log(err);}
-                console.log(kittens);
+                console.log(kittens);//?
                 console.log('all the kittens');
                 if(kittens && kittens.length >0){
                     console.log(kittens[0].speak())
