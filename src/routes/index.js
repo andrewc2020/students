@@ -4,7 +4,7 @@ import TeacherController from '../controllers/teacherController';
 import CourseController from '../controllers/courseController';
 import KittenController from '../controllers/kittenController';
 import userController from '../controllers/userController';
-import {check} from 'express-validator/check';
+import {check} from 'express-validator';
 import auth from '../middleware/auth';
 
 import non_admin_auth from '../middleware/non_admin_auth';
