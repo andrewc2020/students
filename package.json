@@ -56,13 +56,14 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express-validator": "6.6.0",
+    "joi": "17.2.1",
     "joigoose": "^4.0.8",
     "js-yaml": "3.14.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.19",
     "mongodb": "3.5.9",
     "mongoose": "5.9.22",
-    "npm": "6.14.6",
+    "npm": "6.14.8",
     "serialize-javascript": "^3.1.0"
   },
   "engines": {

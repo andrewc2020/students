@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import jwt from 'jsonwebtoken';
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
