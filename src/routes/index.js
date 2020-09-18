@@ -25,11 +25,19 @@ routes.post('/user/',[check('email').isEmail(),check('userName').isLength({min:2
 routes.get('/user/current',non_admin_auth, userController.getCurrent);
 routes.get('/users',auth, userController.getAllUsers);
 routes.delete('/users',auth,userController.deleteAllUsers);
+//kittens
+
 routes.get('/kittens/', KittenController.getAllKittens);
 routes.get('/kittens/sortby/name', KittenController.getAllKittensSortedByName);
 routes.get('/kittens/:id',KittenController.getSingleKitten);
 routes.post('/kittens/create/',[check('kitten.name').isLength({min:2})],KittenController.addKitten);
 routes.delete('/kittens/delete/:id',KittenController.deleteKitten);
+//cats
+routes.get('/cats/', CatController.getAllCats);
+routes.get('/cats/sortby/name', CatController.getAllCatsSortedByName);
+routes.get('/cats/:id',CatController.getSingleCat);
+routes.post('/cats/create/',[check('Cat.name').isLength({min:2})],CatController.addCat);
+routes.delete('/cats/delete/:id',CatController.deleteCat);
 //students
 routes.get('/students/',auth, StudentController.getAllStudents);
 routes.get('/students/:id', non_admin_auth, StudentController.getSingleStudent);
