@@ -3,6 +3,7 @@ import StudentController from '../controllers/studentController';
 import TeacherController from '../controllers/teacherController';
 import CourseController from '../controllers/courseController';
 import KittenController from '../controllers/kittenController';
+import CatController from '../controllers/catController'
 import userController from '../controllers/userController';
 import {check} from 'express-validator';
 import auth from '../middleware/auth';
