@@ -1,6 +1,6 @@
 
-import Cat from '../models/Cat';
-import validate from '../models/Cat';
+import Cat from '../models/cat';
+import validate from '../models/cat';
 import {validationResult} from 'express-validator';
 
 
