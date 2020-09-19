@@ -71,12 +71,31 @@ class KittenController{
         const { error } = validate(req.body.kitten);
         if (error) return res.status(400).send(error.details[0].message);
 
-            let k = new Kitten({name: req.body.kitten.name});
+            let k = new Kitten({name: req.body.kitten.name, mother: req.body.kitten.mother});
             await k.save((err,result)=>{
                 if(err){return res.status(422).json({message:err})}
                 return res.status(200).json({result, message:"success"});
             })
         
+    }
+     //update a kitten
+static updateKitten(req,res){
+    // const Kitten = Kittens.find( s => s.id === parseInt(req.params.id));
+    // if(!Kitten){
+          
+                Kitten.findOne({_id:req.params.id}, async (err, kitten)=>{
+                     
+                      kitten.mother = req.body.kitten.mother;
+                      kitten.save();
+                      return await res.status(200).json({
+                            kitten,
+                            message: "updated successfully"
+                      })
+                })
+          
+    
+          
+          
     }
 
     static deleteKitten(req,res){

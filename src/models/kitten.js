@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Joi from 'joi';
+import Joi, { number } from 'joi';
 
 
 let kittySchema = new mongoose.Schema({
@@ -10,6 +10,13 @@ let kittySchema = new mongoose.Schema({
     required: true,
     minlength: 3,
     maxlength: 50
+  },
+  mother:
+  {
+    type: Number,
+    unique: false,
+    required: false
+
   }
 });
 

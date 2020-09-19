@@ -118,9 +118,10 @@ static updateStudent(req,res){
       // const student = students.find( s => s.id === parseInt(req.params.id));
       // if(!student){
             
-                  Student.updateOne({_id:req.params.id}, async (err, student)=>{
+                  Student.findOne({_id:req.params.id}, async (err, student)=>{
                         student.userName = req.body.student.userName;
                         student.dob = req.body.student.dob
+                        student.save();
                         return await res.status(200).json({
                               student,
                               message: "updated successfully"

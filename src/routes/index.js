@@ -31,6 +31,7 @@ routes.get('/kittens/', KittenController.getAllKittens);
 routes.get('/kittens/sortby/name', KittenController.getAllKittensSortedByName);
 routes.get('/kittens/:id',KittenController.getSingleKitten);
 routes.post('/kittens/create/',[check('kitten.name').isLength({min:2})],KittenController.addKitten);
+routes.put('/kittens/:id', KittenController.updateKitten);
 routes.delete('/kittens/delete/:id',KittenController.deleteKitten);
 //cats
 routes.get('/cats/', CatController.getAllCats);
