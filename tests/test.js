@@ -313,18 +313,17 @@ describe("Students", () => {
     }); // end of describe Post
     // describe PUT
     describe("Put /students/5dc993d649a6d09151e9b278", ()=>{
+        
         it("should update an existing student Sean Gray - dob",(done) =>{
             const student = {
                     
-                id:    "5dc993d649a6d09151e9b278" ,
-                userName: "Sean Gray",
-                email: "SeanGray@bt.com",
-                password: "asdjfljfa",
-                dob: "1992-08-01T23:00:00.000+00:00"
+                
+                
+                dob: "1994-08-01T23:00:00.000+00:00"
               
         };
         chai.request(app)
-        .put(`/students/${student.id}`)
+        .put(`/students/${student_id}`)
         .set({'x-access-token' : token})
         .send({student})
         .end((err, res) => {
@@ -344,28 +343,29 @@ describe("Students", () => {
 
 
         });
-        it("should not throw not found error when trying to update a non existent student", (done) => {
-            const student = {
+        // it("should throw not found error when trying to update a non existent student", (done) => {
+             
+        //     const student = {
                     
-                id : '5dcd46ef620bb5003485023854',       
-                userName: "non existent student",
-                email:"nonest@nowhere.com",
-                dob: '02/14/1993'
+        //         id : '5dcd46ef620bb5003485023854',       
+        //         userName: "non existent student",
+        //         email:"nonest@nowhere.com",
+        //         dob: '02/14/1993'
               
-        };
-            chai.request(app)
-            .put(`/students/${student.id}`)
-            .set('x-access-token', token)
-            .send({student})
-            .end((err, res) => {
-            res.should.have.status(200);
-            if (err) {
-                done(err);
-            } else {
-                done();
-            }
-            });
-        }); // end of it should
+        // };
+        //     chai.request(app)
+        //     .put(`/students/${student.id}`)
+        //     .set('x-access-token', token)
+        //     .send({student})
+        //     .end((err, res) => {
+        //     res.should.have.status(200);
+        //     if (err) {
+        //         done(err);
+        //     } else {
+        //         done();
+        //     }
+        //     });
+        // }); // end of it should
             
         
     }); // end of describe PUT

@@ -57,7 +57,7 @@ mongo.MongoClient.connect(url,{
               
               },[]),2));
 
-              assert.equal(students[0].age,23)
+              assert.equal(students[0].age,24)
               console.log(students);
                    
                 db.close();
@@ -92,7 +92,7 @@ describe('#4 connect using env',()=>{
     })
 })
 describe('add using pre-registered schema',()=>{
-    it('should add a kitten',()=>{
+    it('should add a kitten or fail if duplicate name',()=>{
         if(connectDb()){
             //find number of kittens
             
